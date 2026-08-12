@@ -1,4 +1,23 @@
+<div align="center">
+
+<img src="logo.png" alt="ScrollStack" width="88" height="88">
+
 # ScrollStack
+
+**Headless, framework-agnostic infinite scrolling for TypeScript.**
+
+[![npm](https://img.shields.io/npm/v/@scrollstackjs/core?style=flat-square&color=5eead4&label=npm)](https://www.npmjs.com/package/@scrollstackjs/core)
+[![gzip size](https://img.shields.io/bundlejs/size/%40scrollstackjs%2Fcore?style=flat-square&color=5eead4&label=core%20gzip)](https://bundlejs.com/?q=%40scrollstackjs%2Fcore)
+[![types](https://img.shields.io/badge/types-included-5eead4?style=flat-square)](#quickstart)
+[![license](https://img.shields.io/npm/l/@scrollstackjs/core?style=flat-square&color=5eead4)](./LICENSE)
+
+[**Documentation**](https://devgauravjatt.github.io/scrollstackjs/) &nbsp;·&nbsp;
+[**Live demo**](https://devgauravjatt.github.io/scrollstackjs/demo) &nbsp;·&nbsp;
+[Tutorial](https://devgauravjatt.github.io/scrollstackjs/tutorial) &nbsp;·&nbsp;
+[API reference](https://devgauravjatt.github.io/scrollstackjs/api/core) &nbsp;·&nbsp;
+[Decisions](https://devgauravjatt.github.io/scrollstackjs/decisions)
+
+</div>
 
 Headless, framework-agnostic infinite scrolling for TypeScript. All the logic —
 pagination, retry, cancellation, the state machine, observers — lives in a tiny
@@ -117,9 +136,12 @@ docs/                           — VitePress site (guides + API reference)
 DECISIONS.md · STATUS.md · AGENTS.md
 ```
 
-Documentation lives at **[scrollstack.js.org](https://scrollstack.js.org)**, published
-to GitHub Pages by [`.github/workflows/docs.yml`](.github/workflows/docs.yml) on every
-push to `main` that touches `docs/` or `packages/`.
+Documentation is published to GitHub Pages by
+[`.github/workflows/docs.yml`](.github/workflows/docs.yml) on every push to `main`
+that touches `docs/` or `packages/`. It is live at
+**[devgauravjatt.github.io/scrollstackjs](https://devgauravjatt.github.io/scrollstackjs/)**
+and moves to `scrollstack.js.org` once the [js.org](https://github.com/js-org/js.org)
+subdomain request is merged.
 
 The docs site installs separately — it has its own `pnpm-workspace.yaml`, so a
 VitePress upgrade can't perturb the library build:

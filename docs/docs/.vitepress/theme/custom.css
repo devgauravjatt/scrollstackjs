@@ -47,6 +47,27 @@
   letter-spacing: -0.02em;
 }
 
+/* Dial the hero's second line back from the theme default (32/48/56px) so the
+   product name keeps the emphasis. Breakpoints mirror VPHero's own. */
+.VPHero .text {
+  line-height: 34px;
+  font-size: 26px;
+}
+
+@media (min-width: 640px) {
+  .VPHero .text {
+    line-height: 30px;
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 960px) {
+  .VPHero .text {
+    line-height: 32px;
+    font-size: 22px;
+  }
+}
+
 .VPHero .tagline {
   color: var(--vp-c-text-2);
   max-width: 52ch;
