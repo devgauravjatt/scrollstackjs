@@ -1,19 +1,32 @@
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
-// Served from the custom domain https://scrollstack.js.org, so the site sits at the
-// root and `base` stays at its default '/'. Only set `base: '/scrollstackjs/'` if the
-// domain is ever dropped and the site falls back to the bare Pages project URL.
+//
+// GitHub Pages serves this repo at two different roots and no single `base` covers
+// both — asset URLs are baked in at build time:
+//
+//   https://scrollstack.js.org/                    → base '/'              (custom domain)
+//   https://devgauravjatt.github.io/scrollstackjs/ → base '/scrollstackjs/' (bare project URL)
+//
+// So CI passes it in. `DOCS_BASE=/scrollstackjs/` until the js.org subdomain resolves;
+// drop the env var from the workflow the moment the custom domain is attached.
+// VitePress has no relative-base mode, so this really is either/or.
+const base = process.env.DOCS_BASE ?? '/'
+
+// Canonical host follows the base — sitemap URLs must match where the site is served,
+// or search engines index URLs that 404. VitePress does not fold `base` into sitemap
+// links, so the sub-path has to be carried on the hostname itself.
+const hostname =
+  base === '/' ? 'https://scrollstack.js.org' : `https://devgauravjatt.github.io${base}`
+
 export default defineConfig({
   title: 'ScrollStack',
   description: 'Headless, framework-agnostic infinite scrolling for TypeScript.',
   cleanUrls: true,
   lastUpdated: true,
+  base,
 
-  // sitemap.xml needs the canonical host to emit absolute URLs.
-  sitemap: {
-    hostname: 'https://scrollstack.js.org',
-  },
+  sitemap: { hostname },
 
   // Dark only — pins the site to the dark palette and removes the theme toggle.
   // `.vitepress/theme/custom.css` is written for this one palette.
