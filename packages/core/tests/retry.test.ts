@@ -25,7 +25,8 @@ describe('retry', () => {
       retryDelay: 10,
     });
 
-    scroll.loadNextPage();
+    // Deliberately not awaited — fake timers drive the retries below.
+    void scroll.loadNextPage();
     // Drive the initial attempt + scheduled retries and flush their microtasks.
     await vi.advanceTimersByTimeAsync(100);
 
@@ -49,7 +50,8 @@ describe('retry', () => {
       retryDelay: 10,
     });
 
-    scroll.loadNextPage();
+    // Deliberately not awaited — fake timers drive the retries below.
+    void scroll.loadNextPage();
     await vi.advanceTimersByTimeAsync(100);
 
     const snap = scroll.getSnapshot();

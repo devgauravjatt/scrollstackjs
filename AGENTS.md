@@ -19,10 +19,19 @@ pnpm run build       # tsc per package, topological (core before adapters)
 pnpm test            # 45 tests / 11 files across the four packages
 pnpm run typecheck   # tsc --noEmit per package
 pnpm run verify      # build + typecheck + test — run this before declaring done
-pnpm run lint        # oxlint over the whole repo (docs/ included)
+pnpm run lint        # oxlint over packages/ + examples/ — type-aware
+pnpm run lint:docs   # docs/ separately (needs `cd docs && pnpm install` first)
 pnpm run format      # oxfmt --write; `format:check` for CI
 pnpm run check       # lint + format:check
 ```
+
+**Linting is type-aware** (`options.typeAware` in the root `.oxlintrc.json`, powered
+by the `oxlint-tsgolint` devDependency), so it needs the same things `typecheck`
+does: `packages/core/dist` must exist before the adapters lint clean. `typeAware`
+is honoured **only in the root config** — it can't be scoped per package — so it
+applies to whatever paths a run is pointed at. That's why `lint` targets
+`packages examples` (always provisioned by the root install) and `docs` has its own
+script: type-aware linting can't resolve types there until `docs/` is installed.
 
 Single package: `pnpm --filter @scrollstackjs/core test`.
 Single test file: `pnpm --filter @scrollstackjs/core exec vitest run tests/retry.test.ts`.

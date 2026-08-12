@@ -3,7 +3,10 @@
   "compilerOptions": {
     "noEmit": true,
     "jsx": "preserve",
-    "types": ["vite/client", "node"]
+    // `vite` is not a direct dependency here (VitePress bundles its own), so
+    // "vite/client" never resolved — and nothing under .vitepress uses
+    // `import.meta.env`. Type-aware linting is what surfaced it.
+    "types": ["node"]
   },
   "include": ["docs/.vitepress/**/*.ts", "docs/.vitepress/**/*.vue"]
 }

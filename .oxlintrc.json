@@ -22,6 +22,16 @@
     "browser": true
   },
 
+  // Type-aware linting. Powered by the `oxlint-tsgolint` devDependency and the
+  // tsconfig oxlint discovers per file. `typeAware` is only honoured in the ROOT
+  // config — it cannot be scoped per package — so it applies to every path a run
+  // is pointed at. That is why `pnpm run lint` targets `packages examples` and
+  // `docs` has its own script: docs is a separate pnpm project, and type-aware
+  // linting needs its dependencies installed to resolve types.
+  "options": {
+    "typeAware": true
+  },
+
   "ignorePatterns": ["**/dist/**", "**/node_modules/**", "**/coverage/**", "**/*.d.ts"],
 
   "rules": {
@@ -57,7 +67,34 @@
     "promise/param-names": "error",
 
     // Side-effect imports for stylesheets and polyfills are intentional.
-    "import/no-unassigned-import": ["error", { "allow": ["**/*.css", "**/*.scss", "**/*.postcss"] }]
+    "import/no-unassigned-import": [
+      "error",
+      { "allow": ["**/*.css", "**/*.scss", "**/*.postcss"] }
+    ],
+
+    // --- Type-aware rules (inert unless `options.typeAware` is on) ---------------
+    // The engine is all async, so these are the ones that actually earn their keep.
+    "typescript/no-floating-promises": "error",
+    "typescript/no-misused-promises": "error",
+    "typescript/await-thenable": "error",
+    "typescript/no-unnecessary-type-assertion": "error",
+    "typescript/no-base-to-string": "error",
+
+    // Off — the engine is a factory, not a class: every "method" is a closure on an
+    // object literal, so destructuring `fetchPage` or `loadNextPage` can never
+    // rebind `this`. The one class (ScrollStackError) is never destructured.
+    "typescript/unbound-method": "off",
+    // Off — the assertions in this codebase are all deliberate: erasing handler
+    // variance in the emitter's heterogeneous registry, narrowing DOM observer
+    // options, and typing parsed JSON in the demos.
+    "typescript/no-unsafe-type-assertion": "off",
+    // Off — `reduce` is an exhaustive switch over a discriminated union with no
+    // `default`. TypeScript proves every path returns; this rule cannot, and adding
+    // a `default` would be unreachable code the tests can't cover.
+    "typescript/consistent-return": "off",
+    // Off — explicit generics (`createInfiniteScroll<Page, number>`) document the
+    // scenario under test even where they match the inferred defaults.
+    "typescript/no-unnecessary-type-arguments": "off"
   },
 
   "overrides": [
