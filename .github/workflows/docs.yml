@@ -1,0 +1,65 @@
+name: Deploy docs
+
+# Publishes the VitePress site to GitHub Pages, served at https://scrollstack.js.org.
+# `packages/**` is a trigger too: the site's live demos import @scrollstackjs/{core,vue}
+# from `packages/*/dist`, so a library change changes the site.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'packages/**'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a running deploy finish rather than cancelling it half-published.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # `lastUpdated: true` reads each page's git history.
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # The docs site resolves @scrollstackjs/{core,vue} through `link:../packages/*`,
+      # which points at `dist/`. Build the library first or the demo imports fail.
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+
+      # docs/ is a separate pnpm project with its own workspace and lockfile.
+      - run: pnpm install --frozen-lockfile
+        working-directory: docs
+      - run: pnpm run build
+        working-directory: docs
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

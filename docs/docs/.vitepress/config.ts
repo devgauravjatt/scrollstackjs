@@ -1,12 +1,19 @@
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
-// Deploying to a sub-path (e.g. GitHub Pages project site)? Set `base: '/scrollstack/'`.
+// Served from the custom domain https://scrollstack.js.org, so the site sits at the
+// root and `base` stays at its default '/'. Only set `base: '/scrollstackjs/'` if the
+// domain is ever dropped and the site falls back to the bare Pages project URL.
 export default defineConfig({
   title: 'ScrollStack',
   description: 'Headless, framework-agnostic infinite scrolling for TypeScript.',
   cleanUrls: true,
   lastUpdated: true,
+
+  // sitemap.xml needs the canonical host to emit absolute URLs.
+  sitemap: {
+    hostname: 'https://scrollstack.js.org',
+  },
 
   // Dark only — pins the site to the dark palette and removes the theme toggle.
   // `.vitepress/theme/custom.css` is written for this one palette.

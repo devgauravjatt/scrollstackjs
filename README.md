@@ -117,6 +117,10 @@ docs/                           — VitePress site (guides + API reference)
 DECISIONS.md · STATUS.md · AGENTS.md
 ```
 
+Documentation lives at **[scrollstack.js.org](https://scrollstack.js.org)**, published
+to GitHub Pages by [`.github/workflows/docs.yml`](.github/workflows/docs.yml) on every
+push to `main` that touches `docs/` or `packages/`.
+
 The docs site installs separately — it has its own `pnpm-workspace.yaml`, so a
 VitePress upgrade can't perturb the library build:
 

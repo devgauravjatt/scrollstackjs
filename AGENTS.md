@@ -47,6 +47,14 @@ Root `pnpm install` does not touch it:
 cd docs && pnpm install && pnpm run build   # fails the build on dead links
 ```
 
+**The site deploys to <https://scrollstack.js.org>** via
+`.github/workflows/docs.yml` (GitHub Pages, Actions-based publishing). The build
+order there is load-bearing: root `pnpm run build` first, because docs resolves
+`@scrollstackjs/{core,vue}` through `link:../packages/*` → `dist/`. `base` stays
+`'/'` — the custom domain serves the site at the root, not under `/scrollstackjs/`.
+`docs/docs/public/CNAME` exists as js.org's proof of ownership; GitHub itself
+ignores it under Actions publishing and reads the domain from repo settings.
+
 ## Layout
 
 ```
