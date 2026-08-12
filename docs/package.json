@@ -1,0 +1,17 @@
+{
+  "name": "scrollstack-docs",
+  "private": true,
+  "description": "Documentation site for ScrollStack (VitePress).",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "serve": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@scrollstackjs/core": "link:../packages/core",
+    "@scrollstackjs/vue": "link:../packages/vue",
+    "vitepress": "latest",
+    "vue": "latest"
+  }
+}

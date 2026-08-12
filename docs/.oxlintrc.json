@@ -1,0 +1,15 @@
+{
+  "$schema": "../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../.oxlintrc.json"],
+
+  // `docs/` is a separate pnpm project (its own workspace + lockfile), but the
+  // lint config still inherits the repo base so the VitePress demos are held to
+  // the same standard. Run `pnpm exec oxlint docs` from the repo root.
+  "plugins": ["vue"],
+
+  "ignorePatterns": ["docs/.vitepress/dist/**", "docs/.vitepress/cache/**"],
+
+  "rules": {
+    "no-console": "off"
+  }
+}

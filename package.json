@@ -1,0 +1,35 @@
+{
+  "name": "scrollstack",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The TanStack of infinite scrolling — a headless, framework-agnostic scroll engine.",
+  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "bugs": {
+    "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devgauravjatt/scrollstackjs.git"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "check": "pnpm run lint && pnpm run format:check",
+    "verify": "pnpm -r build && pnpm -r typecheck && pnpm -r test"
+  },
+  "devDependencies": {
+    "jsdom": "latest",
+    "oxfmt": "^0.63.0",
+    "oxlint": "^1.78.0",
+    "typescript": "latest",
+    "vitest": "latest"
+  },
+  "packageManager": "pnpm@11.21.0"
+}

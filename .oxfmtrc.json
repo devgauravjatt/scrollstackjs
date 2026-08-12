@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+
+  // Shared base. oxfmt does NOT support `extends` and a nested `.oxfmtrc.json`
+  // *replaces* this one for files beneath it — so every per-package config
+  // repeats these options verbatim and only appends what is package-specific.
+  // Keep them in sync when you change anything here.
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "objectWrap": "preserve",
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  "proseWrap": "preserve",
+  "embeddedLanguageFormatting": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "sortImports": true,
+  "sortPackageJson": true,
+
+  "ignorePatterns": [
+    "dist/**",
+    "node_modules/**",
+    "coverage/**",
+    "pnpm-lock.yaml",
+    "pnpm-publish-summary.json"
+  ]
+}

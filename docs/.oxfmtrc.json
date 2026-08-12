@@ -1,0 +1,34 @@
+{
+  "$schema": "../node_modules/oxfmt/configuration_schema.json",
+
+  // `docs/` is a separate pnpm project, so it has no oxfmt of its own — run it
+  // from the repo root (`pnpm exec oxfmt docs`). oxfmt has no `extends`, and
+  // this file *replaces* the root `.oxfmtrc.json` for everything under `docs/`.
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "objectWrap": "preserve",
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  // Guide prose is hand-wrapped; reflowing it would churn every page.
+  "proseWrap": "preserve",
+  "embeddedLanguageFormatting": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "vueIndentScriptAndStyle": false,
+  "sortImports": true,
+  "sortPackageJson": true,
+
+  "ignorePatterns": [
+    "node_modules/**",
+    "docs/.vitepress/dist/**",
+    "docs/.vitepress/cache/**",
+    "pnpm-lock.yaml"
+  ]
+}

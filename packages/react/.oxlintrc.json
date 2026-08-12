@@ -1,0 +1,26 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+
+  "plugins": ["react", "react-perf"],
+
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    // Invariant 2: snapshots are referentially stable — a missing dep here is
+    // exactly what causes the infinite re-render loop ADR-004 guards against.
+    "react-hooks/exhaustive-deps": "error",
+    "no-console": "error"
+  },
+
+  "overrides": [
+    {
+      // Test components are throwaway render harnesses; memoization isn't the point.
+      "files": ["tests/**"],
+      "rules": {
+        "react-perf/jsx-no-new-function-as-prop": "off",
+        "react-perf/jsx-no-new-object-as-prop": "off",
+        "react-perf/jsx-no-new-array-as-prop": "off"
+      }
+    }
+  ]
+}

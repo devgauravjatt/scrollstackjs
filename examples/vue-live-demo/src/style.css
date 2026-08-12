@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+
+/* Dark only — the demo apps mirror the docs site's single palette. */
+html {
+  color-scheme: dark;
+  scrollbar-color: #334155 transparent;
+}
+
+body {
+  @apply bg-slate-950 font-sans text-slate-100 antialiased;
+}

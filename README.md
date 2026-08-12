@@ -1,0 +1,142 @@
+# ScrollStack
+
+Headless, framework-agnostic infinite scrolling for TypeScript. All the logic —
+pagination, retry, cancellation, the state machine, observers — lives in a tiny
+core engine (**1.92 KB gzipped**). Framework adapters are thin bindings (React:
+**0.32 KB**; Vue and Svelte comparably small). You bring the markup; ScrollStack
+owns the behavior.
+
+Think "the TanStack of scrolling": one core, many adapters.
+
+> **Foundation build.** The core engine plus **React, Vue, and Svelte** adapters
+> are built, typed, and tested (**45 passing tests**) in a pnpm workspace on a
+> current toolchain (TypeScript 7, Vitest 4, React 19, Vue 3, Svelte 5). Remaining
+> adapters and feature packages are on the roadmap — see [`STATUS.md`](./STATUS.md).
+> Design rationale is in [`DECISIONS.md`](./DECISIONS.md).
+
+## Quickstart
+
+**React**
+
+```tsx
+import { useInfiniteScroll } from '@scrollstackjs/react';
+
+const { pages, ref, isFetchingNextPage, hasNextPage } = useInfiniteScroll({
+  initialPageParam: 0,
+  fetchPage: async ({ pageParam, signal }) =>
+    (await fetch(`/api/items?cursor=${pageParam}`, { signal })).json(),
+  getNextPageParam: (last) => last.nextCursor, // null = no more pages
+});
+// <li ref={ref}>{isFetchingNextPage ? 'Loading…' : ''}</li>
+```
+
+**Vue**
+
+```vue
+<script setup lang="ts">
+import { useInfiniteScroll } from '@scrollstackjs/vue';
+const { state, target } = useInfiniteScroll({
+  initialPageParam: 0,
+  fetchPage: async ({ pageParam, signal }) =>
+    (await fetch(`/api/items?cursor=${pageParam}`, { signal })).json(),
+  getNextPageParam: (last) => last.nextCursor,
+});
+</script>
+<template>
+  <li v-for="i in state.pages.flatMap((p) => p.items)" :key="i.id">{{ i.name }}</li>
+  <div v-if="state.hasNextPage" :ref="target" />
+</template>
+```
+
+**Svelte**
+
+```svelte
+<script lang="ts">
+  import { onDestroy } from 'svelte';
+  import { createInfiniteScroll } from '@scrollstackjs/svelte';
+  const scroll = createInfiniteScroll({
+    initialPageParam: 0,
+    fetchPage: async ({ pageParam, signal }) =>
+      (await fetch(`/api/items?cursor=${pageParam}`, { signal })).json(),
+    getNextPageParam: (last) => last.nextCursor,
+  });
+  const { target } = scroll;
+  onDestroy(scroll.destroy);
+</script>
+
+{#each $scroll.pages.flatMap(p => p.items) as i (i.id)}<li>{i.name}</li>{/each}
+{#if $scroll.hasNextPage}<div use:target />{/if}
+```
+
+The sentinel element (`ref` / `:ref="target"` / `use:target`) auto-loads the next
+page when it scrolls into view.
+
+## Core (any framework)
+
+```ts
+import { createInfiniteScroll } from '@scrollstackjs/core';
+
+const scroll = createInfiniteScroll({
+  initialPageParam: 0,
+  fetchPage: async ({ pageParam, signal }) => fetchPage(pageParam, signal),
+  getNextPageParam: (last) => last.nextCursor,
+});
+scroll.subscribe(() => render(scroll.getSnapshot()));
+scroll.observeTarget(sentinelElement); // or call scroll.loadNextPage() yourself
+```
+
+Snapshot: `{ status, fetchStatus, pages, pageParams, error, hasNextPage,
+failureCount, isIdle, isLoading, isSuccess, isError, isFetching,
+isFetchingNextPage }`. On a **load-more** failure the list stays visible
+(`isSuccess` true) and `error` is set — see ADR-003.
+
+## Pagination is one function
+
+Cursor, offset, and page-number pagination are all just different
+`getNextPageParam` implementations — not different APIs. Return `null`/`undefined`
+to signal the end.
+
+## Repository layout (pnpm workspace)
+
+```
+pnpm-workspace.yaml
+packages/
+  core/    @scrollstackjs/core    — the engine (35 tests)
+  react/   @scrollstackjs/react   — useInfiniteScroll hook (2 tests)
+  vue/     @scrollstackjs/vue     — useInfiniteScroll composable (4 tests)
+  svelte/  @scrollstackjs/svelte  — createInfiniteScroll store (4 tests)
+examples/
+  react-infinite-feed/          — quickstart feed, typechecked
+  react-horizontal-rail/        — typechecked; `root` = an overflow-x container
+  vue-infinite-feed/            — quickstart SFC
+  svelte-infinite-feed/         — quickstart SFC
+  react-live-demo/              — all 7 features, Tailwind, real public APIs
+  vue-live-demo/                — same seven, @scrollstackjs/vue
+  svelte-live-demo/             — same seven, @scrollstackjs/svelte
+docs/                           — VitePress site (guides + API reference)
+DECISIONS.md · STATUS.md · AGENTS.md
+```
+
+The docs site installs separately — it has its own `pnpm-workspace.yaml`, so a
+VitePress upgrade can't perturb the library build:
+
+```bash
+cd docs && pnpm install && pnpm run dev   # http://localhost:5173
+```
+
+## Develop
+
+```bash
+pnpm install
+pnpm run build       # build all packages (core first, topological)
+pnpm test            # run all tests
+pnpm run typecheck   # type-check all packages
+pnpm run verify      # build + typecheck + test
+```
+
+Adapters resolve `@scrollstackjs/core` through the workspace (`workspace:^`), and
+`pnpm -r` sequences the build so the core is compiled before anything depends on it.
+
+## License
+
+MIT

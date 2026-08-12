@@ -1,0 +1,27 @@
+{
+  "name": "@scrollstack-example/vue-live-demo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: every ScrollStack feature, live, with @scrollstackjs/vue and Tailwind CSS.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
+  },
+  "dependencies": {
+    "@scrollstackjs/core": "workspace:*",
+    "@scrollstackjs/vue": "workspace:*",
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "latest",
+    "@vitejs/plugin-vue": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}

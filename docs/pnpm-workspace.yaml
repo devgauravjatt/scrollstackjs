@@ -1,0 +1,6 @@
+# The docs site installs on its own, outside the packages/examples workspace, so
+# a VitePress upgrade can never perturb the library build.
+packages: []
+
+allowBuilds:
+  esbuild: true

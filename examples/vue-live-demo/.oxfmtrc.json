@@ -1,0 +1,36 @@
+{
+  "$schema": "../../node_modules/oxfmt/configuration_schema.json",
+
+  // oxfmt has no `extends`, and this file *replaces* the root `.oxfmtrc.json`
+  // for everything under this example. Keep the shared block in sync with the
+  // repo root — but note the examples are deliberately semicolon-free, unlike
+  // `packages/*`.
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "objectWrap": "preserve",
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  "proseWrap": "preserve",
+  "embeddedLanguageFormatting": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "vueIndentScriptAndStyle": false,
+  "sortImports": true,
+  "sortPackageJson": true,
+
+  // Tailwind v4 has no JS config — point oxfmt at the stylesheet that holds
+  // `@import 'tailwindcss'`, or class sorting silently no-ops.
+  "sortTailwindcss": {
+    "stylesheet": "./src/style.css"
+  },
+
+  "ignorePatterns": ["dist/**", "node_modules/**"]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+
+  "rules": {
+    // Invariant 8: core has zero runtime dependencies.
+    // Invariant 7: core must construct and run with no DOM — no Node builtins either.
+    "import/no-nodejs-modules": "error",
+    // The published engine must not ship stray logging.
+    "no-console": "error"
+  }
+}

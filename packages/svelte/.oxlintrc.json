@@ -1,0 +1,10 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+
+  // oxlint has no Svelte plugin; the adapter is plain `.ts` so the base rules
+  // cover it. `.svelte` files (examples only) are parsed but not Svelte-aware.
+  "rules": {
+    "no-console": "error"
+  }
+}
