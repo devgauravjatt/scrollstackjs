@@ -11,6 +11,9 @@ importers:
       '@scrollstackjs/core':
         specifier: link:../packages/core
         version: link:../packages/core
+      '@scrollstackjs/devtools':
+        specifier: link:../packages/devtools
+        version: link:../packages/devtools
       '@scrollstackjs/vue':
         specifier: link:../packages/vue
         version: link:../packages/vue

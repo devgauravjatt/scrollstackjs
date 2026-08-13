@@ -25,12 +25,12 @@ logic worth measuring — that is the point of ADR-008.
 
 ### Apps and site
 
-| Artifact                                | State                   | What was checked                                                                                        |
-| --------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------- |
-| `examples/{react,vue,svelte}-live-demo` | **Built & verified**    | All 7 features per framework, Tailwind CSS v4, real public APIs; `vite build` clean, headless-Chrome    |
-| `examples/react-live-demo-with-devtool` | **Built & verified**    | The React demo plus `@scrollstackjs/devtools` on the feed engine; `tsc --noEmit` and `vite build` clean |
-| `docs/`                                 | **Built & deployed**    | VitePress — 7 guides, 5 API pages, tutorial, live-demo page; builds clean with no dead links            |
-| `docs/` demos                           | **Verified in-browser** | 7 live `@scrollstackjs/vue` demos against Rick and Morty / PokéAPI / JSONPlaceholder                    |
+| Artifact                                | State                   | What was checked                                                                                                        |
+| --------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `examples/{react,vue,svelte}-live-demo` | **Built & verified**    | All 7 features per framework, Tailwind CSS v4, real public APIs; `vite build` clean, headless-Chrome                    |
+| `examples/react-live-demo-with-devtool` | **Built & verified**    | The React demo plus `@scrollstackjs/devtools` on the feed engine; `tsc --noEmit` and `vite build` clean                 |
+| `docs/`                                 | **Built & deployed**    | VitePress — 7 guides, 5 API pages, tutorial, live-demo page; builds clean with no dead links                            |
+| `docs/` demos                           | **Verified in-browser** | 8 live `@scrollstackjs/vue` demos against Rick and Morty / PokéAPI / JSONPlaceholder, including the real devtools panel |
 
 The site is published to <https://scrollstack.js.org> by `.github/workflows/docs.yml`.
 
