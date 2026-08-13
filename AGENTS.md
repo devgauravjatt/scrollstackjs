@@ -72,8 +72,11 @@ packages/
   react/   @scrollstackjs/react   useInfiniteScroll (useSyncExternalStore)
   vue/     @scrollstackjs/vue     useInfiniteScroll (shallowRef)
   svelte/  @scrollstackjs/svelte  createInfiniteScroll (returns a store)
+  devtools/ @scrollstackjs/devtools  dev-only panel: store.ts (logic) + panel.ts (DOM)
 examples/  {react,vue,svelte}-live-demo  — all 7 features, Tailwind v4, real APIs
            the three live demos mirror docs/demo; change one, change all three
+           react-live-demo-with-devtool  — a copy of the React demo with the
+           devtools panel on FeedDemo; a demo change means a fourth edit here
 docs/      VitePress site — docs/docs/{guide,api}/*.md, config in .vitepress/
            .vitepress/theme/demo/*.vue are live demos built on @scrollstackjs/vue
 ```
@@ -140,7 +143,7 @@ IntersectionObserver impl) · `retry.ts` · `emitter.ts` · `errors.ts` ·
   and do **not** merge it with the root one. oxlint configs therefore carry
   `"extends": ["../../.oxlintrc.json"]`; **oxfmt has no `extends`**, so each
   `.oxfmtrc.json` repeats the shared option block verbatim — change one, change
-  all nine. `packages/*` use semicolons, `examples/*` and `docs/` do not; that
+  all ten. `packages/*` use semicolons, `examples/*` and `docs/` do not; that
   split is intentional and encoded per config.
 
 ## Gotchas

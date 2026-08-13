@@ -140,6 +140,23 @@ Restoring is the harder half: there is no API to seed the engine with existing
 pages, so a full "restore where I left off" plugin isn't buildable today. It's on
 the roadmap as `@scrollstackjs/persist`.
 
+## Devtools is a plugin
+
+The panel in [`@scrollstackjs/devtools`](/api/devtools) is exactly this shape — it
+subscribes to state and every lifecycle event, and returns a cleanup that unmounts
+it when the engine is destroyed:
+
+```ts
+import { devtoolsPlugin } from '@scrollstackjs/devtools'
+
+createInfiniteScroll({
+  initialPageParam: 0,
+  fetchPage,
+  getNextPageParam: (last) => last.nextCursor,
+  plugins: import.meta.env.DEV ? [devtoolsPlugin()] : [],
+})
+```
+
 ## Where the line is
 
 Plugins are the right home for analytics, logging, devtools, and side effects

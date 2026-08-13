@@ -64,6 +64,46 @@ importers:
         specifier: latest
         version: 8.2.1(esbuild@0.28.2)(jiti@2.7.0)
 
+  examples/react-live-demo-with-devtool:
+    dependencies:
+      '@scrollstackjs/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@scrollstackjs/devtools':
+        specifier: workspace:*
+        version: link:../../packages/devtools
+      '@scrollstackjs/react':
+        specifier: workspace:*
+        version: link:../../packages/react
+      react:
+        specifier: latest
+        version: 19.2.8
+      react-dom:
+        specifier: latest
+        version: 19.2.8(react@19.2.8)
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: latest
+        version: 4.3.3(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
+      '@types/react':
+        specifier: latest
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: latest
+        version: 19.2.4(@types/react@19.2.18)
+      '@vitejs/plugin-react':
+        specifier: latest
+        version: 6.0.5(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
+      tailwindcss:
+        specifier: latest
+        version: 4.3.3
+      typescript:
+        specifier: latest
+        version: 7.0.2
+      vite:
+        specifier: latest
+        version: 8.2.1(esbuild@0.28.2)(jiti@2.7.0)
+
   examples/svelte-live-demo:
     dependencies:
       '@scrollstackjs/core':
@@ -121,6 +161,12 @@ importers:
         version: 8.2.1(esbuild@0.28.2)(jiti@2.7.0)
 
   packages/core: {}
+
+  packages/devtools:
+    dependencies:
+      '@scrollstackjs/core':
+        specifier: workspace:^
+        version: link:../core
 
   packages/react:
     dependencies:

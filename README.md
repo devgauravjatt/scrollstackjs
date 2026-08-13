@@ -124,10 +124,12 @@ packages/
   react/   @scrollstackjs/react   — useInfiniteScroll hook (2 tests)
   vue/     @scrollstackjs/vue     — useInfiniteScroll composable (4 tests)
   svelte/  @scrollstackjs/svelte  — createInfiniteScroll store (4 tests)
+  devtools/ @scrollstackjs/devtools — dev-only inspector panel (25 tests)
 examples/
   react-live-demo/              — all 7 features, Tailwind, real public APIs
   vue-live-demo/                — same seven, @scrollstackjs/vue
   svelte-live-demo/             — same seven, @scrollstackjs/svelte
+  react-live-demo-with-devtool/ — the React demo with the devtools panel attached
 docs/                           — VitePress site (guides + API reference)
 CONTRIBUTING.md · DECISIONS.md · STATUS.md · AGENTS.md
 ```

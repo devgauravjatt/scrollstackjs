@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+
+  // Devtools is a browser-only, dev-only package: it renders a DOM panel, so
+  // unlike core it may touch `document` — but only from `mount()`, never at
+  // module scope (invariant 7). No Node builtins, and no stray logging.
+  "rules": {
+    "import/no-nodejs-modules": "error",
+    "no-console": "error"
+  }
+}

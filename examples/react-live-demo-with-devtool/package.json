@@ -1,0 +1,32 @@
+{
+  "name": "@scrollstack-example/react-live-demo-with-devtool",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Example: the React live demo with @scrollstackjs/devtools attached to the feed engine.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
+  },
+  "dependencies": {
+    "@scrollstackjs/core": "workspace:*",
+    "@scrollstackjs/devtools": "workspace:*",
+    "@scrollstackjs/react": "workspace:*",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}

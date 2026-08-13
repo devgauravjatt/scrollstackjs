@@ -7,17 +7,19 @@ Vue 3, Svelte 5).
 
 ## Verified (compiles, type-checks, tested)
 
-| Package / artifact                      | State                   | Proof                                                                                                                                      |
-| --------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `@scrollstackjs/core`                   | **Built**               | 35 tests pass; `tsc` clean; `.d.ts` emitted; **1.92 KB** gzipped (min+bundled)                                                             |
-| `@scrollstackjs/react`                  | **Built**               | 2 tests pass; `tsc` clean; `.d.ts` emitted; **0.32 KB** gzipped (excl. peers)                                                              |
-| `@scrollstackjs/vue`                    | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                |
-| `@scrollstackjs/svelte`                 | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                |
-| `examples/{react,vue,svelte}-live-demo` | **Built & verified**    | All 7 features per framework, Tailwind CSS v4, real public APIs; `vite build` clean and headless-Chrome checked                            |
-| `docs/`                                 | **Built**               | VitePress site — 7 guides + 4 API pages + a live demo page; `pnpm run build` clean, no dead links                                          |
-| `docs/` demos                           | **Verified in-browser** | 7 live `@scrollstackjs/vue` demos against public APIs (Rick and Morty / PokéAPI / JSONPlaceholder); headless-Chrome check loads real pages |
+| Package / artifact                      | State                   | Proof                                                                                                                                       |
+| --------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@scrollstackjs/core`                   | **Built**               | 35 tests pass; `tsc` clean; `.d.ts` emitted; **1.92 KB** gzipped (min+bundled)                                                              |
+| `@scrollstackjs/react`                  | **Built**               | 2 tests pass; `tsc` clean; `.d.ts` emitted; **0.32 KB** gzipped (excl. peers)                                                               |
+| `@scrollstackjs/vue`                    | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                 |
+| `@scrollstackjs/svelte`                 | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                 |
+| `@scrollstackjs/devtools`               | **Built**               | 29 tests pass; `tsc` clean; `.d.ts` emitted; dev-only, no core changes, SSR-safe                                                            |
+| `examples/{react,vue,svelte}-live-demo` | **Built & verified**    | All 7 features per framework, Tailwind CSS v4, real public APIs; `vite build` clean and headless-Chrome checked                             |
+| `examples/react-live-demo-with-devtool` | **Built & verified**    | The React demo plus `@scrollstackjs/devtools` on the feed engine; `tsc --noEmit` and `vite build` clean, headless-Chrome screenshot checked |
+| `docs/`                                 | **Built**               | VitePress site — 7 guides + 5 API pages + a live demo page; `pnpm run build` clean, no dead links                                           |
+| `docs/` demos                           | **Verified in-browser** | 7 live `@scrollstackjs/vue` demos against public APIs (Rick and Morty / PokéAPI / JSONPlaceholder); headless-Chrome check loads real pages  |
 
-**Total: 45 tests passing across 11 test files.** All four packages build in
+**Total: 74 tests passing across 14 test files.** All five packages build in
 topological order via `pnpm -r build` (core first, then adapters, then the
 example apps).
 
@@ -57,8 +59,10 @@ now proven three ways — React hook, Vue composable, Svelte store — so these 
 mechanical.)
 
 **Feature packages** (separate, per ADR-001): `@scrollstackjs/virtual` ·
-`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · `@scrollstackjs/devtools` ·
-alternative `Trigger` implementations (scroll-event, manual).
+`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · alternative `Trigger`
+implementations (scroll-event, manual). `@scrollstackjs/devtools` shipped — see the
+table above; the sentinel overlay is still deferred, since it needs a way to read the
+observed element off the engine.
 
 **Core follow-ups:** `refetch()` / reload-from-first-page; bi-directional
 (`getPreviousPageParam`) pagination; finer `isFetchNextPageError` signal if needed;
@@ -72,9 +76,9 @@ extension resolution (ADR-007); add `size-limit` to CI to enforce gzip budgets;
 
 ```bash
 pnpm install
-pnpm run build       # builds all four packages (core first)
-pnpm test            # 44 tests
-pnpm run typecheck   # all four packages
+pnpm run build       # builds all five packages (core first)
+pnpm test            # 74 tests
+pnpm run typecheck   # all five packages
 pnpm run verify      # build + typecheck + test in one shot
 
 # examples (after building the packages)
@@ -82,6 +86,9 @@ pnpm run verify      # build + typecheck + test in one shot
 pnpm --filter @scrollstack-example/react-live-demo dev
 pnpm --filter @scrollstack-example/vue-live-demo dev
 pnpm --filter @scrollstack-example/svelte-live-demo dev
+
+# the same React demo with the devtools panel attached to the feed engine
+pnpm --filter @scrollstack-example/react-live-demo-with-devtool dev
 
 # docs site (installs separately — it is not part of the workspace)
 cd docs && pnpm install && pnpm run dev

@@ -164,7 +164,7 @@ Formatting is automated — run `pnpm run format` and don't hand-tune. The rest:
 - **oxlint + oxfmt configs don't merge.** Both tools pick the _nearest_ config only.
   oxlint configs carry `"extends": ["../../.oxlintrc.json"]`; oxfmt has no `extends`,
   so each `.oxfmtrc.json` repeats the shared block verbatim — change one, change all
-  nine. `packages/*` use semicolons; `examples/*` and `docs/` don't. That split is
+  ten. `packages/*` use semicolons; `examples/*` and `docs/` don't. That split is
   intentional.
 
 ## Tests
@@ -213,8 +213,10 @@ These are the ones on the roadmap and unclaimed — good places to start if you 
 a substantial piece to own:
 
 **Feature packages** (separate, per ADR-001): `@scrollstackjs/virtual` ·
-`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · `@scrollstackjs/devtools` ·
-alternative `Trigger` implementations (scroll-event, manual).
+`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · alternative `Trigger`
+implementations (scroll-event, manual). `@scrollstackjs/devtools` is built — its
+design notes are in [`devtool.md`](./devtool.md), and the deferred sentinel overlay
+is still open.
 
 **Adapters:** Solid · Qwik · Preact · Vanilla · Astro island wrapper. The pattern is
 proven three ways now — React hook, Vue composable, Svelte store — so these are

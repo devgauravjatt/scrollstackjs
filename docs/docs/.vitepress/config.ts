@@ -155,6 +155,7 @@ export default defineConfig({
           { text: '@scrollstackjs/react', link: '/api/react' },
           { text: '@scrollstackjs/vue', link: '/api/vue' },
           { text: '@scrollstackjs/svelte', link: '/api/svelte' },
+          { text: '@scrollstackjs/devtools', link: '/api/devtools' },
         ],
       },
       {

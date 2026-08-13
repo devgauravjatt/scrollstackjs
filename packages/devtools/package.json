@@ -1,0 +1,44 @@
+{
+  "name": "@scrollstackjs/devtools",
+  "version": "0.1.0",
+  "description": "Dev-only devtools panel for ScrollStack — live state, event timeline, page explorer, manual controls.",
+  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "bugs": {
+    "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",
+    "directory": "packages/devtools"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check ."
+  },
+  "dependencies": {
+    "@scrollstackjs/core": "workspace:^"
+  }
+}
