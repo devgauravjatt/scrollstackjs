@@ -46,14 +46,12 @@ jobs:
       # docs/ is a separate pnpm project with its own workspace and lockfile.
       - run: pnpm install --frozen-lockfile
         working-directory: docs
-      # TEMPORARY — remove this `env:` block the moment scrollstack.js.org is
-      # attached in Settings > Pages. Until then the site is served from the bare
-      # project URL (…github.io/scrollstackjs/) and needs the matching sub-path
-      # base, or every asset 404s against the host root. See docs/.vitepress/config.ts.
+      # Builds at base '/' — scrollstack.js.org is attached, and `public/CNAME`
+      # keeps it attached across deploys. Do NOT reintroduce `DOCS_BASE` here:
+      # the sub-path base bakes /scrollstackjs/ into every asset URL, which 404s
+      # against the custom domain's root. See docs/.vitepress/config.ts.
       - run: pnpm run build
         working-directory: docs
-        env:
-          DOCS_BASE: /scrollstackjs/
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

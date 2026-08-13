@@ -13,8 +13,9 @@ const REPO = 'https://github.com/devgauravjatt/scrollstackjs'
 //   https://scrollstack.js.org/                    → base '/'              (custom domain)
 //   https://devgauravjatt.github.io/scrollstackjs/ → base '/scrollstackjs/' (bare project URL)
 //
-// So CI passes it in. `DOCS_BASE=/scrollstackjs/` until the js.org subdomain resolves;
-// drop the env var from the workflow the moment the custom domain is attached.
+// The custom domain is attached, so CI builds at the default '/' and `public/CNAME`
+// keeps it that way. `DOCS_BASE` stays as an escape hatch for building the bare
+// project URL — setting it for a scrollstack.js.org deploy 404s every asset.
 // VitePress has no relative-base mode, so this really is either/or.
 const base = process.env.DOCS_BASE ?? '/'
 
