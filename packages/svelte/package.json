@@ -1,12 +1,33 @@
 {
   "name": "@scrollstackjs/svelte",
   "version": "0.1.0",
-  "description": "Svelte adapter for ScrollStack — a headless infinite-scroll store.",
-  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "description": "Svelte adapter for ScrollStack — a headless infinite-scroll store plus a sentinel action. Works in Svelte 4 and 5. 0.25 KB gzipped.",
+  "keywords": [
+    "headless",
+    "infinite-list",
+    "infinite-scroll",
+    "infinite-scrolling",
+    "intersection-observer",
+    "lazy-loading",
+    "load-more",
+    "pagination",
+    "ssr",
+    "svelte",
+    "svelte-action",
+    "svelte-store",
+    "svelte5",
+    "sveltekit",
+    "typescript"
+  ],
+  "homepage": "https://scrollstack.js.org/api/svelte",
   "bugs": {
     "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "devgauravjatt",
+    "url": "https://github.com/devgauravjatt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",

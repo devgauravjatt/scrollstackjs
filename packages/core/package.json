@@ -1,12 +1,33 @@
 {
   "name": "@scrollstackjs/core",
   "version": "0.1.0",
-  "description": "Headless, framework-agnostic infinite-scroll engine. Zero runtime dependencies.",
-  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "description": "Headless, framework-agnostic infinite-scroll engine — pagination, retry, cancellation and an intersection trigger in 1.91 KB gzipped. Zero runtime dependencies.",
+  "keywords": [
+    "cursor-pagination",
+    "framework-agnostic",
+    "headless",
+    "infinite-list",
+    "infinite-scroll",
+    "infinite-scrolling",
+    "intersection-observer",
+    "lazy-loading",
+    "load-more",
+    "pagination",
+    "scroll",
+    "ssr",
+    "state-machine",
+    "typescript",
+    "zero-dependencies"
+  ],
+  "homepage": "https://scrollstack.js.org/api/core",
   "bugs": {
     "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "devgauravjatt",
+    "url": "https://github.com/devgauravjatt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",

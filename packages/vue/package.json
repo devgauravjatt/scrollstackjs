@@ -1,12 +1,33 @@
 {
   "name": "@scrollstackjs/vue",
   "version": "0.1.0",
-  "description": "Vue 3 adapter for ScrollStack — a headless infinite-scroll composable.",
-  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "description": "Vue 3 adapter for ScrollStack — a headless useInfiniteScroll composable with scope-aware teardown. 0.29 KB gzipped.",
+  "keywords": [
+    "composable",
+    "headless",
+    "infinite-list",
+    "infinite-scroll",
+    "infinite-scrolling",
+    "intersection-observer",
+    "lazy-loading",
+    "load-more",
+    "pagination",
+    "ssr",
+    "typescript",
+    "use-infinite-scroll",
+    "vue",
+    "vue-composable",
+    "vue3"
+  ],
+  "homepage": "https://scrollstack.js.org/api/vue",
   "bugs": {
     "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "devgauravjatt",
+    "url": "https://github.com/devgauravjatt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",

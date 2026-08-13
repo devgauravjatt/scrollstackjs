@@ -1,12 +1,30 @@
 {
   "name": "@scrollstackjs/devtools",
   "version": "0.1.0",
-  "description": "Dev-only devtools panel for ScrollStack — live state, event timeline, page explorer, manual controls.",
-  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "description": "Dev-only devtools panel for ScrollStack — live state, event timeline, page explorer and manual controls in a shadow-DOM overlay.",
+  "keywords": [
+    "debug-panel",
+    "debugging",
+    "developer-tools",
+    "devtools",
+    "event-timeline",
+    "infinite-scroll",
+    "infinite-scrolling",
+    "inspector",
+    "scrollstack",
+    "shadow-dom",
+    "state-inspector",
+    "typescript"
+  ],
+  "homepage": "https://scrollstack.js.org/api/devtools",
   "bugs": {
     "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "devgauravjatt",
+    "url": "https://github.com/devgauravjatt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",
