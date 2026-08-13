@@ -1,12 +1,33 @@
 {
   "name": "@scrollstackjs/react",
-  "version": "0.1.0",
-  "description": "React adapter for ScrollStack — a headless infinite-scroll hook.",
-  "homepage": "https://github.com/devgauravjatt/scrollstackjs#readme",
+  "version": "0.1.1",
+  "description": "React adapter for ScrollStack — a headless useInfiniteScroll hook built on useSyncExternalStore. 0.32 KB gzipped.",
+  "keywords": [
+    "headless",
+    "headless-ui",
+    "infinite-list",
+    "infinite-scroll",
+    "infinite-scrolling",
+    "intersection-observer",
+    "lazy-loading",
+    "load-more",
+    "pagination",
+    "react",
+    "react-hook",
+    "ssr",
+    "typescript",
+    "use-infinite-scroll",
+    "usesyncexternalstore"
+  ],
+  "homepage": "https://scrollstack.js.org/api/react",
   "bugs": {
     "url": "https://github.com/devgauravjatt/scrollstackjs/issues"
   },
   "license": "MIT",
+  "author": {
+    "name": "devgauravjatt",
+    "url": "https://github.com/devgauravjatt"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devgauravjatt/scrollstackjs.git",

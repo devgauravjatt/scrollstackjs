@@ -117,10 +117,33 @@ on `destroy()`. Plugins are registered at creation, so they never miss the first
 > **How it works →** [Tutorial § 7, Watching what happens](/tutorial#_7-watching-what-happens)
 > — callbacks, events, and plugins, and when to reach for each.
 
+## Devtools, on a real engine
+
+The panel below is the actual [`@scrollstackjs/devtools`](/api/devtools) build
+reading the engine next to it — not a screenshot, and not a reimplementation for
+the docs.
+
+Press **Open devtools**, then load a page and watch the timeline record
+`loadStart` → `success` with the duration of each fetch. Tick **Break the next
+fetch** to see an `error` row and the load-more indicator, which distinguishes
+_"first load failed (no data)"_ from _"load-more failed (data intact)"_. The
+**Pages** tab shows each loaded page against the `pageParam` that fetched it.
+
+<DevtoolsDemo />
+
+The panel is `position: fixed`, exactly as in your own app, so it floats over
+this page rather than sitting in the box — drag its header to move it, or press
+<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>0</kbd> to toggle it. It closes when you
+navigate away.
+
+> **How it works →** [`@scrollstackjs/devtools`](/api/devtools) for the full API,
+> or [Events & plugins](/guide/events-and-plugins#devtools-is-a-plugin) for the
+> one-line `devtoolsPlugin()` form used in real apps.
+
 ## What isn't here
 
 Nothing on this page is faked, and nothing is hiding a feature that doesn't
-exist. Virtualization, persistence, pull-to-refresh, devtools, and bi-directional
+exist. Virtualization, persistence, pull-to-refresh, and bi-directional
 (`getPreviousPageParam`) pagination are **not built** — see
 [Architecture decisions](/decisions) for why each one belongs outside the core
 rather than inside it.

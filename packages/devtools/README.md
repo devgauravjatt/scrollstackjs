@@ -1,15 +1,25 @@
 # @scrollstackjs/devtools
 
-Dev-only devtools panel for [ScrollStack](https://www.npmjs.com/package/@scrollstackjs/core).
-Live engine state, an event timeline, a page explorer, and manual controls — in a
-floating panel that renders inside a shadow root, so it can't collide with your app's CSS.
+[![npm](https://img.shields.io/npm/v/@scrollstackjs/devtools.svg?color=1e9e6a)](https://www.npmjs.com/package/@scrollstackjs/devtools)
+[![dev only](https://img.shields.io/badge/scope-dev%20only-1e9e6a)](https://scrollstack.js.org/api/devtools)
+[![license](https://img.shields.io/npm/l/@scrollstackjs/devtools.svg?color=1e9e6a)](https://github.com/devgauravjatt/scrollstackjs/blob/main/LICENSE)
+
+Dev-only devtools panel for [ScrollStack](https://scrollstack.js.org/). Live engine
+state, an event timeline, a page explorer, and manual controls — in a floating panel
+that renders inside a shadow root, so it can't collide with your app's CSS.
+
+📖 **[Docs](https://scrollstack.js.org/)** · [API reference](https://scrollstack.js.org/api/devtools) · [Live demo](https://scrollstack.js.org/demo) · [Events & plugins](https://scrollstack.js.org/guide/events-and-plugins)
 
 ```bash
 npm i -D @scrollstackjs/devtools
 ```
 
-Register it as a plugin and forget about it — one line, every adapter, mounts and
-unmounts with the engine:
+Works with every adapter — React, Vue, Svelte, or core on its own.
+
+## Quick start
+
+Register it as a plugin and forget about it — one line, mounts and unmounts with
+the engine:
 
 ```ts
 import { devtoolsPlugin } from '@scrollstackjs/devtools';
@@ -37,8 +47,9 @@ if (import.meta.env.DEV) devtools.mount();
 
 ## What's in the panel
 
-- **State** — `status` and `fetchStatus` side by side (they're orthogonal, see ADR-003),
-  page count, `pageParams`, `hasNextPage`, `failureCount`, and the six derived booleans.
+- **State** — `status` and `fetchStatus` side by side (they're orthogonal, see
+  [ADR-003](https://scrollstack.js.org/decisions)), page count, `pageParams`,
+  `hasNextPage`, `failureCount`, and the six derived booleans.
 - **Timeline** — every `loadStart` / `success` / `error` / `reset`, newest first, with the
   duration of each load. Filter by text or errors only. Ring buffer, default 100 rows.
 - **Pages** — each loaded page with the `pageParam` that fetched it; the JSON is
@@ -81,4 +92,11 @@ remembered.
   so a production build that never mounts it drops the whole package.
 - SSR-safe: `mount()` no-ops without a DOM.
 
-MIT
+## Contributing
+
+Issues and pull requests are welcome — see
+[CONTRIBUTING.md](https://github.com/devgauravjatt/scrollstackjs/blob/main/CONTRIBUTING.md).
+The [sentinel overlay](https://github.com/devgauravjatt/scrollstackjs/blob/main/STATUS.md#roadmap)
+is still open if you want a piece to own.
+
+MIT © [devgauravjatt](https://github.com/devgauravjatt)
