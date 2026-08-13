@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "React adapter for ScrollStack — a headless useInfiniteScroll hook built on useSyncExternalStore. 0.32 KB gzipped.",
   "keywords": [
     "headless",

@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/devtools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Dev-only devtools panel for ScrollStack — live state, event timeline, page explorer and manual controls in a shadow-DOM overlay.",
   "keywords": [
     "debug-panel",
