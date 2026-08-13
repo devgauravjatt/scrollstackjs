@@ -133,7 +133,8 @@ function Feed() {
 }
 ```
 
-This is `examples/react-infinite-feed` in the repo, near-verbatim.
+`examples/react-live-demo` in the repo builds on this — all seven features,
+Tailwind CSS, real public APIs.
 
 ## Subscribing to events
 

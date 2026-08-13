@@ -13,11 +13,7 @@ Vue 3, Svelte 5).
 | `@scrollstackjs/react`                  | **Built**               | 2 tests pass; `tsc` clean; `.d.ts` emitted; **0.32 KB** gzipped (excl. peers)                                                              |
 | `@scrollstackjs/vue`                    | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                |
 | `@scrollstackjs/svelte`                 | **Built**               | 4 tests pass; `tsc` clean; `.d.ts` emitted; thin wrapper, well under budget                                                                |
-| `examples/react-infinite-feed`          | **Type-checked**        | `tsc --noEmit` clean against the built packages                                                                                            |
-| `examples/react-horizontal-rail`        | **Type-checked**        | `tsc --noEmit` clean; horizontal rail with `root` set to the scroll container                                                              |
 | `examples/{react,vue,svelte}-live-demo` | **Built & verified**    | All 7 features per framework, Tailwind CSS v4, real public APIs; `vite build` clean and headless-Chrome checked                            |
-| `examples/vue-infinite-feed`            | **Reference**           | idiomatic SFC; run with `pnpm --filter …-vue-infinite-feed dev`                                                                            |
-| `examples/svelte-infinite-feed`         | **Reference**           | idiomatic SFC; run with `pnpm --filter …-svelte-infinite-feed dev`                                                                         |
 | `docs/`                                 | **Built**               | VitePress site — 7 guides + 4 API pages + a live demo page; `pnpm run build` clean, no dead links                                          |
 | `docs/` demos                           | **Verified in-browser** | 7 live `@scrollstackjs/vue` demos against public APIs (Rick and Morty / PokéAPI / JSONPlaceholder); headless-Chrome check loads real pages |
 
@@ -82,11 +78,6 @@ pnpm run typecheck   # all four packages
 pnpm run verify      # build + typecheck + test in one shot
 
 # examples (after building the packages)
-pnpm --filter @scrollstack-example/react-infinite-feed dev
-pnpm --filter @scrollstack-example/react-horizontal-rail dev
-pnpm --filter @scrollstack-example/vue-infinite-feed dev
-pnpm --filter @scrollstack-example/svelte-infinite-feed dev
-
 # full feature demos — all seven demos per framework, Tailwind, real APIs
 pnpm --filter @scrollstack-example/react-live-demo dev
 pnpm --filter @scrollstack-example/vue-live-demo dev

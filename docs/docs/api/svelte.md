@@ -122,9 +122,10 @@ DOM, which is what makes the `{#if}` above safe.
 </main>
 ```
 
-This is `examples/svelte-infinite-feed` in the repo, near-verbatim. The reactive
-statements are Svelte 4 syntax; under Svelte 5 runes they become
-`$derived(...)` — the store itself works either way.
+`examples/svelte-live-demo` in the repo builds on this — all seven features,
+Tailwind CSS, real public APIs. The reactive statements above are Svelte 4
+syntax; under Svelte 5 runes they become `$derived(...)` — the store itself
+works either way.
 
 ## Svelte 5 note
 

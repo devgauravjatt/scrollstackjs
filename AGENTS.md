@@ -44,8 +44,8 @@ adapter, or you will chase phantom type errors.
 script. Check one explicitly:
 
 ```bash
-pnpm --filter @scrollstack-example/react-horizontal-rail exec tsc -p tsconfig.json --noEmit
-pnpm --filter @scrollstack-example/react-horizontal-rail dev   # needs packages built first
+pnpm --filter @scrollstack-example/react-live-demo exec tsc -p tsconfig.json --noEmit
+pnpm --filter @scrollstack-example/react-live-demo dev   # needs packages built first
 ```
 
 **`docs/` is a separate pnpm project**, not a workspace member — it has its own
@@ -72,8 +72,7 @@ packages/
   react/   @scrollstackjs/react   useInfiniteScroll (useSyncExternalStore)
   vue/     @scrollstackjs/vue     useInfiniteScroll (shallowRef)
   svelte/  @scrollstackjs/svelte  createInfiniteScroll (returns a store)
-examples/  *-infinite-feed / react-horizontal-rail  — minimal quickstarts
-           {react,vue,svelte}-live-demo            — all 7 features, Tailwind v4, real APIs
+examples/  {react,vue,svelte}-live-demo  — all 7 features, Tailwind v4, real APIs
            the three live demos mirror docs/demo; change one, change all three
 docs/      VitePress site — docs/docs/{guide,api}/*.md, config in .vitepress/
            .vitepress/theme/demo/*.vue are live demos built on @scrollstackjs/vue
@@ -151,9 +150,8 @@ IntersectionObserver impl) · `retry.ts` · `emitter.ts` · `errors.ts` ·
   `reset()` or remount via a `key`. Reactive options are on the roadmap; don't
   paper over it in an example.
 - **`root` must exist before the hook runs.** For a container-scoped scroll, the
-  component holding the hook has to mount _inside_ an already-rendered container —
-  see the App/Rail split in
-  [examples/react-horizontal-rail/src/App.tsx](examples/react-horizontal-rail/src/App.tsx).
+  component holding the hook has to mount _inside_ an already-rendered container,
+  so split the container and the hook into separate components.
 - **IntersectionObserver only fires on transitions.** If a loaded page doesn't push
   the sentinel out of view, nothing re-triggers. Sentinels also need real layout
   size — a zero-width flex item never intersects.

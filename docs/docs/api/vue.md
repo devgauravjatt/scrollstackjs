@@ -126,4 +126,5 @@ const loadMoreFailed = computed(
 </template>
 ```
 
-See `examples/vue-infinite-feed` in the repo.
+See `examples/vue-live-demo` in the repo — all seven features, Tailwind CSS,
+real public APIs.

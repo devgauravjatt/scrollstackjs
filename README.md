@@ -125,10 +125,6 @@ packages/
   vue/     @scrollstackjs/vue     — useInfiniteScroll composable (4 tests)
   svelte/  @scrollstackjs/svelte  — createInfiniteScroll store (4 tests)
 examples/
-  react-infinite-feed/          — quickstart feed, typechecked
-  react-horizontal-rail/        — typechecked; `root` = an overflow-x container
-  vue-infinite-feed/            — quickstart SFC
-  svelte-infinite-feed/         — quickstart SFC
   react-live-demo/              — all 7 features, Tailwind, real public APIs
   vue-live-demo/                — same seven, @scrollstackjs/vue
   svelte-live-demo/             — same seven, @scrollstackjs/svelte

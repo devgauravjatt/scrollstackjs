@@ -178,9 +178,6 @@ const { state, target } = useInfiniteScroll({
 
 :::
 
-`examples/react-horizontal-rail` in the repo is this pattern, complete with the
-loading, error, and end-of-rail states rendered as track-width tiles.
-
 ## Sizing rules
 
 - **The sentinel needs real width.** `flex: 0 0 180px`, not a bare `<div/>` — a
