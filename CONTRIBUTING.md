@@ -2,16 +2,13 @@
 
 Thanks for being here. ScrollStack is a small, deliberately opinionated codebase:
 one tiny engine, thin adapters, and a hard budget on both size and surface area.
-This guide is what you need to get a change landed without fighting the tooling.
+This guide is what you need to land a change without fighting the tooling.
 
-Other documents worth knowing about:
-
-- [`README.md`](./README.md) — what the library is and how it's used.
-- [`DECISIONS.md`](./DECISIONS.md) — **read this before changing engine behavior.**
-  Most "obvious improvements" already have an ADR explaining why they were rejected.
-- [`STATUS.md`](./STATUS.md) — what is actually built and verified vs. roadmap.
-- [`AGENTS.md`](./AGENTS.md) — the deep-dive working notes (invariants, gotchas,
-  per-file source map). This guide is the short path; that one is the long one.
+This is the short path. The long one is [`AGENTS.md`](./AGENTS.md) — invariants with
+their rationale, the per-file source map, and the gotchas that cost the most time.
+Alongside those: [`README.md`](./README.md) for what the library is,
+[`DECISIONS.md`](./DECISIONS.md) for **why the architecture is the way it is**, and
+[`STATUS.md`](./STATUS.md) for what is built versus roadmap.
 
 ## Ways to help
 
@@ -30,6 +27,7 @@ Other documents worth knowing about:
 
 **Open an issue first for anything that changes behavior, the public API, or the
 architecture.** Small fixes, docs, and tests can go straight to a pull request.
+
 The reason is ADR-001: this is a lean core plus a constellation of packages, and
 "just add it to core" is usually the wrong answer even when the feature is right.
 
@@ -47,16 +45,16 @@ picks up the right version automatically. Node has no `engines` pin — CI build
 Node 22, and any current LTS works.
 
 **`pnpm run build` before anything else.** `dist/` is gitignored but load-bearing:
-adapters compile against `packages/core/dist`, not core's source, and so do the
-docs site and the examples. On a fresh clone nothing resolves `@scrollstackjs/core`
-until core has been built once. After editing core, rebuild it before you typecheck,
-test, or lint an adapter — otherwise you'll chase phantom type errors.
+adapters compile against `packages/core/dist`, not core's source, and so do the docs
+site and the examples. On a fresh clone nothing resolves `@scrollstackjs/core` until
+core has been built once. After editing core, rebuild it before you typecheck, test,
+or lint an adapter — otherwise you'll chase phantom type errors.
 
 ## The development loop
 
 ```bash
 pnpm run build       # tsc per package, topological (core before adapters)
-pnpm test            # 45 tests / 11 files across the four packages
+pnpm test            # 76 tests / 14 files across the five packages
 pnpm run typecheck   # tsc --noEmit per package
 pnpm run verify      # build + typecheck + test — the gate before you open a PR
 pnpm run lint        # oxlint over packages/ + examples/ — type-aware
@@ -71,9 +69,9 @@ pnpm --filter @scrollstackjs/core test
 pnpm --filter @scrollstackjs/core exec vitest run tests/retry.test.ts
 ```
 
-**Linting is type-aware**, so it needs the same built `dist/` that typechecking
-does. `typeAware` is honoured only in the root `.oxlintrc.json` and can't be scoped
-per package, which is why `lint` targets `packages examples` and `docs` has its own
+**Linting is type-aware**, so it needs the same built `dist/` that typechecking does.
+`typeAware` is honoured only in the root `.oxlintrc.json` and can't be scoped per
+package, which is why `lint` targets `packages examples` and `docs` has its own
 `lint:docs` script.
 
 **Examples aren't covered by `pnpm run typecheck`** — they only define a `dev`
@@ -96,19 +94,21 @@ cd docs && pnpm run build                   # fails the build on dead links
 The docs demos resolve `@scrollstackjs/{core,vue}` through `link:../packages/*` →
 `dist/`, so build the library before building the docs.
 
-Note that CI currently only builds and deploys the docs site — there's no workflow
-running the test suite on pull requests yet. **`pnpm run verify` on your machine is
-the real gate.** Please run it.
+> **CI only builds and deploys the docs site.** No workflow runs the test suite on
+> pull requests yet, so **`pnpm run verify` on your machine is the real gate.**
+> Please run it.
 
 ## Layout
 
 ```
 packages/
-  core/    @scrollstackjs/core    engine, state machine, retry, observer contract
-  react/   @scrollstackjs/react   useInfiniteScroll (useSyncExternalStore)
-  vue/     @scrollstackjs/vue     useInfiniteScroll (shallowRef)
-  svelte/  @scrollstackjs/svelte  createInfiniteScroll (returns a store)
-examples/  {react,vue,svelte}-live-demo  — all 7 features, Tailwind v4, real APIs
+  core/     @scrollstackjs/core      engine, state machine, retry, observer contract
+  react/    @scrollstackjs/react     useInfiniteScroll (useSyncExternalStore)
+  vue/      @scrollstackjs/vue       useInfiniteScroll (shallowRef)
+  svelte/   @scrollstackjs/svelte    createInfiniteScroll (returns a store)
+  devtools/ @scrollstackjs/devtools  dev-only panel: store.ts (logic) + panel.ts (DOM)
+examples/  {react,vue,svelte}-live-demo   — all 7 features, Tailwind v4, real APIs
+           react-live-demo-with-devtool   — the React demo plus the devtools panel
 docs/      VitePress site — docs/docs/{guide,api}/*.md, config in .vitepress/
 ```
 
@@ -118,14 +118,15 @@ IntersectionObserver implementation) · `retry.ts` · `emitter.ts` · `errors.ts
 `types.ts` (the public type surface) · `index.ts` (the only export barrel).
 
 The three live demos mirror `docs/demo` — **change one, change all three plus the
-docs demo**, or they drift.
+docs demo**, or they drift. If the change touches `FeedDemo`, that's a fourth edit in
+`react-live-demo-with-devtool`.
 
 ## Invariants
 
 These are load-bearing. A change that breaks one needs an ADR arguing the case, not
-just a passing test suite. The full list with rationale is in
-[`AGENTS.md`](./AGENTS.md#invariants--dont-break-these); the ones newcomers trip on
-most:
+just a passing test suite. **The authoritative list, with the reasoning behind each,
+is in [`AGENTS.md`](./AGENTS.md#invariants--dont-break-these)** — read it before
+changing engine behavior. The three newcomers trip on most:
 
 1. **All logic lives in core.** Adapters bind exactly two methods — `subscribe` and
    `getSnapshot` — and forward `loadNextPage` / `retry` / `reset` / a sentinel
@@ -133,16 +134,8 @@ most:
 2. **Snapshots are referentially stable.** `getSnapshot()` returns the _same_ object
    until state actually changes. Building a snapshot inside `getSnapshot` causes
    infinite re-renders in React (ADR-004).
-3. **`state.ts` stays pure.** No async, no side effects.
-4. **Page params use `== null`, never truthiness.** `0` and `''` are valid page
+3. **Page params use `== null`, never truthiness.** `0` and `''` are valid page
    params. There's a regression test for exactly this (ADR-002).
-5. **Load-more failures keep the data.** First-load failure → `status: 'error'`; a
-   later-page failure leaves `status: 'success'` and sets `error` (ADR-003).
-6. **Everything is SSR-safe.** Core constructs and runs with no DOM; don't reach for
-   `window` or `document` at module scope. `ssr.test.ts` guards this.
-7. **Core has zero runtime dependencies**, adapters depend only on core, and the
-   framework is a `peerDependency`. The gzip budget (core < 5 KB, currently 1.92 KB)
-   depends on it.
 
 ## Code style
 
@@ -164,14 +157,14 @@ Formatting is automated — run `pnpm run format` and don't hand-tune. The rest:
 - **oxlint + oxfmt configs don't merge.** Both tools pick the _nearest_ config only.
   oxlint configs carry `"extends": ["../../.oxlintrc.json"]`; oxfmt has no `extends`,
   so each `.oxfmtrc.json` repeats the shared block verbatim — change one, change all
-  ten. `packages/*` use semicolons; `examples/*` and `docs/` don't. That split is
+  eleven. `packages/*` use semicolons; `examples/*` and `docs/` don't. That split is
   intentional.
 
 ## Tests
 
 Tests live in `tests/*.test.ts(x)` inside the package they cover, import from
 `../src/index`, and run on Vitest — `node` environment for core, `jsdom` for the
-adapters. Use fake timers for anything touching retry or backoff, and
+adapters and devtools. Use fake timers for anything touching retry or backoff, and
 `tests/helpers.ts`'s `deferred()` when you need to interleave async steps.
 
 **Every behavior change needs a test in the package that owns the behavior** — which,
@@ -209,31 +202,28 @@ persistence, devtools, and alternative `Trigger` implementations all build on th
 contracts core already exports (ADR-001). This is what keeps the core under budget
 and tree-shakeable for apps that don't use those parts.
 
-These are the ones on the roadmap and unclaimed — good places to start if you want
-a substantial piece to own:
+Good places to start if you want a substantial piece to own:
 
-**Feature packages** (separate, per ADR-001): `@scrollstackjs/virtual` ·
-`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · alternative `Trigger`
-implementations (scroll-event, manual). `@scrollstackjs/devtools` is built — its
-design notes are in [`devtool.md`](./devtool.md), and the deferred sentinel overlay
-is still open.
+- **Feature packages** — `@scrollstackjs/virtual` · `@scrollstackjs/persist` ·
+  `@scrollstackjs/pull-refresh` · alternative `Trigger` implementations
+  (scroll-event, manual).
+- **Adapters** — Solid · Qwik · Preact · Vanilla · Astro island wrapper. The pattern
+  is proven three ways now (React hook, Vue composable, Svelte store), so these are
+  mostly mechanical.
+- **The deferred devtools sentinel overlay**, which needs a way to read the observed
+  element off the engine — the one devtools feature the public API can't reach.
 
-**Adapters:** Solid · Qwik · Preact · Vanilla · Astro island wrapper. The pattern is
-proven three ways now — React hook, Vue composable, Svelte store — so these are
-mostly mechanical.
+None of these are stubbed. Open an issue to claim one before you start, so two people
+don't build the same package. The full roadmap, including core follow-ups and release
+tooling, is in [`STATUS.md`](./STATUS.md#roadmap).
 
-None of these are stubbed; each builds on the contracts core already exports. Open
-an issue to claim one before you start, so two people don't build the same package.
-The full roadmap, including core follow-ups and release tooling, is in
-[`STATUS.md`](./STATUS.md#not-yet-built--roadmap).
-
-**New framework adapters** should stay thin: bind `subscribe` and
-`getSnapshot`, forward the commands, and add nothing else. One gotcha to inherit —
-`observeTarget` builds a new observer on every call, and a new observer fires
-immediately if the target is already visible, so a sentinel binding that runs more
-than once per element causes a refetch loop that ignores `retry`. Vue invokes
-function refs on _every_ patch, which is why the Vue adapter dedupes on the observed
-node; add the same guard to any adapter whose ref fires repeatedly.
+**New framework adapters should stay thin**: bind `subscribe` and `getSnapshot`,
+forward the commands, and add nothing else. One gotcha to inherit — `observeTarget`
+builds a new observer on every call, and a new observer fires immediately if the
+target is already visible, so a sentinel binding that runs more than once per element
+causes a refetch loop that ignores `retry`. Vue invokes function refs on _every_
+patch, which is why the Vue adapter dedupes on the observed node; add the same guard
+to any adapter whose ref fires repeatedly.
 
 ## License
 
