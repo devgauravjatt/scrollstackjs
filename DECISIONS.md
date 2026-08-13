@@ -7,12 +7,12 @@ if you disagree, this is the list to argue with.
 
 ## ADR-001 — Package constellation, not a fat core
 
-**Context.** The two design docs disagree. `AGENTS.md` describes a _fat core_:
-pagination, retry, the state machine, all observers, events, and plugins live
-inside `@scrollstackjs/core`, and nothing else may hold business logic. The
-`README` vision lists _separate_ feature packages (`virtual/`, `intersection/`,
-`paginator/`, `persist/`, …) — the constellation model, which is how real
-TanStack is built (`@tanstack/query-core`, `@tanstack/virtual-core`).
+**Context.** Two shapes were on the table. A _fat core_, where pagination, retry,
+the state machine, every observer, events, and plugins all live inside
+`@scrollstackjs/core` and nothing outside it may hold logic. Or a _constellation_
+of separate feature packages (`virtual/`, `intersection/`, `paginator/`,
+`persist/`, …), which is how TanStack itself is built (`@tanstack/query-core`,
+`@tanstack/virtual-core`).
 
 Both can't be literally true: if `paginator/` is its own package, pagination
 isn't solely in core.
@@ -25,9 +25,11 @@ devtools) become separate packages built on those contracts.
 
 **Why.** It's the only way the headline `< 5 KB` core budget is reachable, and
 it matches the ecosystem being modeled. **Verified:** the built core is
-**1.92 KB gzipped**, the React adapter **0.32 KB** — both well under budget.
+**1.91 KB gzipped**, the React adapter **0.32 KB** — both well under budget.
 A fat core with three observers + persistence + devtools inside it would blow
 past 5 KB and couldn't be tree-shaken away by apps that don't use those parts.
+`@scrollstackjs/devtools` shipped as a separate package on exactly this basis,
+with no changes to core.
 
 **Consequence.** Pagination is _not_ four hardcoded strategies (cursor / offset /
 page / time). It's one function — `getNextPageParam` — and the "strategies"
@@ -155,7 +157,10 @@ swapping in `tsup` is a one-line change per package when you're ready to publish
 ## ADR-008 — Adapters are thin bindings to `subscribe` / `getSnapshot`
 
 **Context.** Three adapters now exist (React, Vue, Svelte) and must not each
-re-implement engine logic — that's the whole point of the fat-core model.
+re-implement engine logic. ADR-001 keeps the core lean, but "lean" applies to
+_features_, not to the engine: the state machine, fetch orchestration, retry, and
+cancellation stay in one place, and an adapter that re-derived any of them would
+give every framework its own subtly different set of bugs.
 
 **Decision.** Every adapter binds to exactly two engine methods — `subscribe`
 (state changed) and `getSnapshot` (read current state) — and forwards the same

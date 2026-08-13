@@ -2,6 +2,7 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 
 import CancelDemo from './demo/CancelDemo.vue'
+import DevtoolsDemo from './demo/DevtoolsDemo.vue'
 import EventsDemo from './demo/EventsDemo.vue'
 import FeedDemo from './demo/FeedDemo.vue'
 import ManualDemo from './demo/ManualDemo.vue'
@@ -29,5 +30,6 @@ export default {
     app.component('TutorialFeed', TutorialFeed)
     app.component('StatesDemo', StatesDemo)
     app.component('Playground', Playground)
+    app.component('DevtoolsDemo', DevtoolsDemo)
   },
 } satisfies Theme
