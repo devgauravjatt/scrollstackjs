@@ -129,7 +129,7 @@ examples/
   vue-live-demo/                — same seven, @scrollstackjs/vue
   svelte-live-demo/             — same seven, @scrollstackjs/svelte
 docs/                           — VitePress site (guides + API reference)
-DECISIONS.md · STATUS.md · AGENTS.md
+CONTRIBUTING.md · DECISIONS.md · STATUS.md · AGENTS.md
 ```
 
 Documentation is published to GitHub Pages by
@@ -158,6 +158,13 @@ pnpm run verify      # build + typecheck + test
 
 Adapters resolve `@scrollstackjs/core` through the workspace (`workspace:^`), and
 `pnpm -r` sequences the build so the core is compiled before anything depends on it.
+
+## Contributing
+
+Bug reports, docs fixes, and pull requests are welcome — see
+[`CONTRIBUTING.md`](./CONTRIBUTING.md) for setup, the development loop, the
+invariants the engine relies on, and the pull-request checklist. Open an issue
+first for anything that changes behavior or the public API.
 
 ## License
 
