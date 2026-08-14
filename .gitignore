@@ -31,7 +31,6 @@ yarn-error.log*
 !.env.example
 
 # Editors
-.vscode/*
 !.vscode/extensions.json
 .idea/
 *.swp
