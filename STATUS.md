@@ -8,20 +8,27 @@ Svelte 5 — via **pnpm workspaces**.
 
 ## Verified
 
-| Package / artifact        | Tests | Size (gzipped)                    |
-| ------------------------- | ----- | --------------------------------- |
-| `@scrollstackjs/core`     | 35    | **1.91 KB** (bundled + minified)  |
-| `@scrollstackjs/react`    | 2     | **0.32 KB** (excl. peers + core)  |
-| `@scrollstackjs/vue`      | 4     | **0.29 KB** (excl. peers + core)  |
-| `@scrollstackjs/svelte`   | 4     | **0.25 KB** (excl. peers + core)  |
-| `@scrollstackjs/devtools` | 31    | dev-only — not held to the budget |
+| Package / artifact        | Tests | Size (gzipped)                           |
+| ------------------------- | ----- | ---------------------------------------- |
+| `@scrollstackjs/core`     | 35    | **1.91 KB** (bundled + minified)         |
+| `@scrollstackjs/react`    | 6     | **0.32 KB** + **0.35 KB** for `/virtual` |
+| `@scrollstackjs/vue`      | 8     | **0.29 KB** + **0.35 KB** for `/virtual` |
+| `@scrollstackjs/svelte`   | 10    | **0.25 KB** + **0.27 KB** for `/virtual` |
+| `@scrollstackjs/virtual`  | 64    | **2.70 KB** (bundled + minified)         |
+| `@scrollstackjs/devtools` | 31    | dev-only — not held to the budget        |
 
-**Total: 76 tests across 14 test files.** All five packages emit `.d.ts`, pass
+Adapter sizes exclude peers and core. `/virtual` is a separate entry point, so an app
+that never imports it pays nothing for it — and `@scrollstackjs/virtual` is an
+_optional_ peer dependency, not installed unless you ask for it.
+
+**Total: 154 tests across 22 test files.** All six packages emit `.d.ts`, pass
 `tsc --noEmit`, and build in topological order via `pnpm -r build` (core first, then
 the adapters that compile against its `dist/`).
 
 Core's budget is `< 5 KB`; it currently sits at **38%** of that. The adapters carry no
-logic worth measuring — that is the point of ADR-008.
+logic worth measuring — that is the point of ADR-008. Virtualization sits outside that
+budget by design: it is a separate package nobody pays for unless they import it
+(ADR-001, ADR-009).
 
 ### Apps and site
 
@@ -51,10 +58,33 @@ The site is published to <https://scrollstack.js.org> by `.github/workflows/docs
 - Event emitter, lifecycle callbacks, and a plugin system with cleanup on destroy.
 - SSR-safe throughout: core constructs and runs with no DOM.
 
+### What the virtualizer does
+
+- Renders a window instead of a list: binary-searched range, configurable `overscan`,
+  padding and gaps, horizontal or vertical.
+- Dynamic row measurement through `measureElement` + a `ResizeObserver`, cached per
+  item key so a measured row keeps its size when the list is re-ordered. A size change
+  re-stacks only the rows below it.
+- Scroll compensation when a row _above_ the viewport measures differently, so the
+  visible rows don't jump.
+- Scrolls an element or the whole page (`window`), with `scrollMargin` for a list that
+  starts part-way down it.
+- `scrollToIndex` with `'auto' | 'start' | 'center' | 'end'` alignment, instant or
+  smooth; `getOffsetForIndex` for doing it yourself.
+- Snapshots change only when the _rendered window_ does, so a fling costs binary
+  searches rather than renders (ADR-009).
+- `connectInfiniteScroll` pairs it with an engine, replacing the sentinel a virtual
+  list cannot render — including the first load, with guards against re-triggering a
+  failed load or stacking duplicate requests.
+- SSR-safe: renders from `initialViewport` with no DOM, no `ResizeObserver`, and no
+  scroll container.
+
 ### What the adapters do
 
 All three bind the same two engine methods — `subscribe` and `getSnapshot` — and add
-nothing else (ADR-008).
+nothing else (ADR-008). Each also exposes a `/virtual` entry point binding the
+virtualizer through the same two methods — `useVirtualizer` (React, Vue) and
+`createVirtualizer` (Svelte).
 
 - **React** — `useInfiniteScroll(options)` over `useSyncExternalStore`. Returns the
   snapshot fields plus `{ ref, loadNextPage, retry, reset, engine }`.
@@ -71,9 +101,14 @@ Deliberately not stubbed. Each item builds on the contracts core already exports
 **Adapters** — Solid · Qwik · Preact · Vanilla · Astro island wrapper. The pattern is
 proven three ways (React hook, Vue composable, Svelte store), so these are mechanical.
 
-**Feature packages**, separate per ADR-001 — `@scrollstackjs/virtual` ·
-`@scrollstackjs/persist` · `@scrollstackjs/pull-refresh` · alternative `Trigger`
-implementations (scroll-event, manual).
+**Feature packages**, separate per ADR-001 — `@scrollstackjs/persist` ·
+`@scrollstackjs/pull-refresh` · alternative `Trigger` implementations (scroll-event,
+manual). `@scrollstackjs/virtual` shipped; see above.
+
+**Virtualization follow-ups.** The package covers single-axis lists. Deliberately not
+started: grids and multi-column lanes · sticky headers · reverse (bottom-anchored)
+lists for chat · a live demo in `examples/` and `docs/demo` (the guide has runnable
+code, but nothing on the demo page renders a virtual list yet).
 
 **Devtools follow-ups.** The panel shipped, but one tool was deferred:
 

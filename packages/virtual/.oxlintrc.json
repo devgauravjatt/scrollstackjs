@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/oxlint/configuration_schema.json",
+  "extends": ["../../.oxlintrc.json"],
+
+  // Virtualization is DOM work — this package reads element geometry and listens
+  // to scroll events — but never at module scope, so it still renders on a server
+  // (invariant 7). No Node builtins, and no stray logging in a published package.
+  "rules": {
+    "import/no-nodejs-modules": "error",
+    "no-console": "error"
+  }
+}
