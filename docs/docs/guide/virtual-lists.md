@@ -194,25 +194,25 @@ isn't rendered, and when it is, it sits at the bottom of a spacer the user may n
 reach. So the trigger moves from geometry to indices — once the rendered window comes
 within `threshold` items of the end, load another page.
 
-```ts
-import { createInfiniteScroll } from '@scrollstackjs/core'
-import { connectInfiniteScroll, createVirtualizer } from '@scrollstackjs/virtual'
-
-const engine = createInfiniteScroll({ initialPageParam: 0, fetchPage, getNextPageParam })
-const virtualizer = createVirtualizer({ count: 0, estimateSize: () => 64 })
-
-connectInfiniteScroll(virtualizer, engine, { threshold: 5 })
-```
-
-In a component, the two stores are bound the way you already bind one — and the
-count that ties them together is just the flattened item length:
+Both stores are bound the way you already bind one, and the only thing tying them
+together is `count` — the flattened item length:
 
 ::: code-group
 
 ```tsx [React]
+import { useInfiniteScroll } from '@scrollstackjs/react'
+import { useVirtualizer } from '@scrollstackjs/react/virtual'
+import { connectInfiniteScroll } from '@scrollstackjs/virtual'
+import { useEffect, useMemo } from 'react'
+
 function Feed() {
-  const { pages, engine } = useInfiniteScroll({ initialPageParam: 0, fetchPage, getNextPageParam })
-  const rows = React.useMemo(() => pages.flatMap((page) => page.items), [pages])
+  const { pages, engine } = useInfiniteScroll({
+    initialPageParam: 0,
+    fetchPage,
+    getNextPageParam: (last) => last.nextCursor,
+  })
+
+  const rows = useMemo(() => pages.flatMap((page) => page.items), [pages])
 
   const { items, totalSize, scrollRef, measureRef, virtualizer } = useVirtualizer({
     count: rows.length,
@@ -220,7 +220,7 @@ function Feed() {
   })
 
   // One effect, and the list feeds itself from then on.
-  React.useEffect(
+  useEffect(
     () => connectInfiniteScroll(virtualizer, engine, { threshold: 5 }),
     [virtualizer, engine],
   )
@@ -229,7 +229,62 @@ function Feed() {
 }
 ```
 
+```vue [Vue]
+<script setup lang="ts">
+import { useInfiniteScroll } from '@scrollstackjs/vue'
+import { useVirtualizer } from '@scrollstackjs/vue/virtual'
+import { connectInfiniteScroll } from '@scrollstackjs/virtual'
+import { computed, onScopeDispose } from 'vue'
+
+const { state: feed, engine } = useInfiniteScroll({
+  initialPageParam: 0,
+  fetchPage,
+  getNextPageParam: (last) => last.nextCursor,
+})
+
+const rows = computed(() => feed.value.pages.flatMap((page) => page.items))
+
+const { state, scrollTarget, measure, virtualizer } = useVirtualizer({
+  count: () => rows.value.length,
+  estimateSize: () => 64,
+})
+
+onScopeDispose(connectInfiniteScroll(virtualizer, engine, { threshold: 5 }))
+</script>
+```
+
+```svelte [Svelte]
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { createInfiniteScroll } from '@scrollstackjs/svelte'
+  import { createVirtualizer } from '@scrollstackjs/svelte/virtual'
+  import { connectInfiniteScroll } from '@scrollstackjs/virtual'
+
+  const scroll = createInfiniteScroll({
+    initialPageParam: 0,
+    fetchPage,
+    getNextPageParam: (last) => last.nextCursor,
+  })
+
+  const virtual = createVirtualizer({ count: 0, estimateSize: () => 64 })
+
+  $: rows = $scroll.pages.flatMap((page) => page.items)
+  $: virtual.setCount(rows.length)
+
+  const disconnect = connectInfiniteScroll(virtual.virtualizer, scroll.engine, { threshold: 5 })
+
+  onDestroy(() => {
+    disconnect()
+    virtual.destroy()
+    scroll.destroy()
+  })
+</script>
+```
+
 :::
+
+A runnable version of this, against a real API, is on the
+[Virtual list example](/examples/virtual) page.
 
 `connectInfiniteScroll` loads the first page as well — with no sentinel, nothing else
 would. Two guards keep it honest: a pending `error` is left to the engine's retry
