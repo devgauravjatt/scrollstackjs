@@ -13,7 +13,7 @@ importers:
         version: 30.0.1
       oxfmt:
         specifier: ^0.63.0
-        version: 0.63.0(svelte@5.56.8)
+        version: 0.63.0(svelte@5.56.9)
       oxlint:
         specifier: ^1.78.0
         version: 1.78.0(oxlint-tsgolint@7.0.2001)
@@ -114,11 +114,11 @@ importers:
         version: link:../../packages/svelte
       svelte:
         specifier: latest
-        version: 5.56.8
+        version: 5.56.9
     devDependencies:
       '@sveltejs/vite-plugin-svelte':
         specifier: latest
-        version: 7.3.0(svelte@5.56.8)(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
+        version: 7.3.0(svelte@5.56.9)(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
       '@tailwindcss/vite':
         specifier: latest
         version: 4.3.3(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
@@ -174,6 +174,9 @@ importers:
         specifier: workspace:^
         version: link:../core
     devDependencies:
+      '@scrollstackjs/virtual':
+        specifier: workspace:^
+        version: link:../virtual
       '@testing-library/dom':
         specifier: latest
         version: 10.4.1
@@ -199,9 +202,18 @@ importers:
         specifier: workspace:^
         version: link:../core
     devDependencies:
+      '@scrollstackjs/virtual':
+        specifier: workspace:^
+        version: link:../virtual
       svelte:
         specifier: latest
-        version: 5.56.8
+        version: 5.56.9
+
+  packages/virtual:
+    dependencies:
+      '@scrollstackjs/core':
+        specifier: workspace:^
+        version: link:../core
 
   packages/vue:
     dependencies:
@@ -209,6 +221,9 @@ importers:
         specifier: workspace:^
         version: link:../core
     devDependencies:
+      '@scrollstackjs/virtual':
+        specifier: workspace:^
+        version: link:../virtual
       '@vue/test-utils':
         specifier: latest
         version: 2.4.11(@vue/compiler-dom@3.5.41)(@vue/server-renderer@3.5.41)(vue@3.5.41(typescript@7.0.2))
@@ -1788,8 +1803,8 @@ packages:
     resolution: {integrity: sha512-yDPMNjp4WyfYBkHnjIRLfca1i6KMyGCtsVgoKe/z1+6vukgaENdgGBZt+ZmKPc4gavvEZ5OgHfHdrazhgNyG7w==}
     engines: {node: '>=12'}
 
-  svelte@5.56.8:
-    resolution: {integrity: sha512-PY8LOw7xP6c8IOiVqdo0sbbZVYhXRSfklOQLAUyGBKqjTX0wx/z4l/9J+PmBpmlLnxzEb1NqltxQ5/wZme/Cmg==}
+  svelte@5.56.9:
+    resolution: {integrity: sha512-VT8kSnlEg8069w7AiCcAk3Yf5xvMnrGTagVOmU/OpOLHaHnNqXhWZCH/4EVga/bT/HtWhvE6/fHrXLErx7OnJA==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -2359,12 +2374,12 @@ snapshots:
     dependencies:
       acorn: 8.18.0
 
-  '@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.8)(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))':
+  '@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.9)(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))':
     dependencies:
       deepmerge: 4.3.1
       magic-string: 1.1.0
       obug: 2.1.4
-      svelte: 5.56.8
+      svelte: 5.56.9
       vite: 8.2.1(esbuild@0.28.2)(jiti@2.7.0)
       vitefu: 1.1.3(vite@8.2.1(esbuild@0.28.2)(jiti@2.7.0))
 
@@ -3025,7 +3040,7 @@ snapshots:
 
   obug@2.1.4: {}
 
-  oxfmt@0.63.0(svelte@5.56.8):
+  oxfmt@0.63.0(svelte@5.56.9):
     dependencies:
       tinypool: 2.1.0
     optionalDependencies:
@@ -3048,7 +3063,7 @@ snapshots:
       '@oxfmt/binding-win32-arm64-msvc': 0.63.0
       '@oxfmt/binding-win32-ia32-msvc': 0.63.0
       '@oxfmt/binding-win32-x64-msvc': 0.63.0
-      svelte: 5.56.8
+      svelte: 5.56.9
 
   oxlint-tsgolint@7.0.2001:
     optionalDependencies:
@@ -3192,7 +3207,7 @@ snapshots:
     dependencies:
       ansi-regex: 6.2.2
 
-  svelte@5.56.8:
+  svelte@5.56.9:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       '@jridgewell/sourcemap-codec': 1.5.5

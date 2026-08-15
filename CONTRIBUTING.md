@@ -54,7 +54,7 @@ or lint an adapter — otherwise you'll chase phantom type errors.
 
 ```bash
 pnpm run build       # tsc per package, topological (core before adapters)
-pnpm test            # 76 tests / 14 files across the five packages
+pnpm test            # 154 tests / 22 files across the six packages
 pnpm run typecheck   # tsc --noEmit per package
 pnpm run verify      # build + typecheck + test — the gate before you open a PR
 pnpm run lint        # oxlint over packages/ + examples/ — type-aware
@@ -106,6 +106,9 @@ packages/
   react/    @scrollstackjs/react     useInfiniteScroll (useSyncExternalStore)
   vue/      @scrollstackjs/vue       useInfiniteScroll (shallowRef)
   svelte/   @scrollstackjs/svelte    createInfiniteScroll (returns a store)
+            each adapter also has src/virtual.ts -> the `/virtual` entry point
+  virtual/  @scrollstackjs/virtual   virtualizer: layout.ts (pure) + virtualizer.ts
+                                     (side effects) + scroller.ts (element vs window)
   devtools/ @scrollstackjs/devtools  dev-only panel: store.ts (logic) + panel.ts (DOM)
 examples/  {react,vue,svelte}-live-demo   — all 7 features, Tailwind v4, real APIs
            react-live-demo-with-devtool   — the React demo plus the devtools panel
@@ -116,6 +119,10 @@ Inside core: `engine.ts` (orchestration and all side effects) · `state.ts` (pur
 reducer + snapshot derivation) · `observer.ts` (the `Trigger` contract and the
 IntersectionObserver implementation) · `retry.ts` · `emitter.ts` · `errors.ts` ·
 `types.ts` (the public type surface) · `index.ts` (the only export barrel).
+
+Inside virtual, the same split one level over: `layout.ts` is pure geometry,
+`virtualizer.ts` owns measurement and listeners, `scroller.ts` hides the difference
+between a scroll container and `window`, and `connect.ts` bridges to a core engine.
 
 The three live demos mirror `docs/demo` — **change one, change all three plus the
 docs demo**, or they drift. If the change touches `FeedDemo`, that's a fourth edit in

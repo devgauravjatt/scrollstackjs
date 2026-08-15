@@ -27,10 +27,11 @@ owns the behavior.
 
 Think "the TanStack of scrolling": one core, many adapters.
 
-> **Foundation build.** The core engine plus **React, Vue, and Svelte** adapters
-> are built, typed, and tested (**45 passing tests**) in a pnpm workspace on a
-> current toolchain (TypeScript 7, Vitest 4, React 19, Vue 3, Svelte 5). Remaining
-> adapters and feature packages are on the roadmap — see [`STATUS.md`](./STATUS.md).
+> **Foundation build.** The core engine, **React, Vue, and Svelte** adapters, and the
+> **virtual** and **devtools** packages are built, typed, and tested (**154 passing
+> tests**) in a pnpm workspace on a current toolchain (TypeScript 7, Vitest 4,
+> React 19, Vue 3, Svelte 5). Remaining adapters and feature packages are on the
+> roadmap — see [`STATUS.md`](./STATUS.md).
 > Design rationale is in [`DECISIONS.md`](./DECISIONS.md).
 
 ## Quickstart
@@ -115,16 +116,39 @@ Cursor, offset, and page-number pagination are all just different
 `getNextPageParam` implementations — not different APIs. Return `null`/`undefined`
 to signal the end.
 
+## Virtual lists
+
+Past a few thousand rows, keeping every loaded page in the DOM is what makes a feed
+stutter. [`@scrollstackjs/virtual`](./packages/virtual) renders only the rows on
+screen — 50 out of 50,000 — with dynamic row measurement, window or container
+scrolling, and SSR support. It is a **separate package** (ADR-001) and a second
+store with the same contract as the engine, so the bindings are the same shape:
+
+```tsx
+import { useVirtualizer } from '@scrollstackjs/react/virtual';
+
+const { items, totalSize, scrollRef, measureRef } = useVirtualizer({
+  count: rows.length,
+  estimateSize: () => 48, // a ballpark; rendered rows replace it with a measurement
+});
+```
+
+A virtual list can't render the sentinel that normally triggers loading, so
+`connectInfiniteScroll(virtualizer, engine)` watches the rendered window instead and
+loads the next page as it nears the end. Guide:
+[Virtual lists](https://devgauravjatt.github.io/scrollstackjs/guide/virtual-lists).
+
 ## Repository layout (pnpm workspace)
 
 ```
 pnpm-workspace.yaml
 packages/
-  core/    @scrollstackjs/core    — the engine (35 tests)
-  react/   @scrollstackjs/react   — useInfiniteScroll hook (2 tests)
-  vue/     @scrollstackjs/vue     — useInfiniteScroll composable (4 tests)
-  svelte/  @scrollstackjs/svelte  — createInfiniteScroll store (4 tests)
-  devtools/ @scrollstackjs/devtools — dev-only inspector panel (25 tests)
+  core/     @scrollstackjs/core     — the engine (35 tests)
+  react/    @scrollstackjs/react    — useInfiniteScroll + /virtual (6 tests)
+  vue/      @scrollstackjs/vue      — useInfiniteScroll + /virtual (8 tests)
+  svelte/   @scrollstackjs/svelte   — createInfiniteScroll + /virtual (10 tests)
+  virtual/  @scrollstackjs/virtual  — headless list virtualization (64 tests)
+  devtools/ @scrollstackjs/devtools — dev-only inspector panel (31 tests)
 examples/
   react-live-demo/              — all 7 features, Tailwind, real public APIs
   vue-live-demo/                — same seven, @scrollstackjs/vue
