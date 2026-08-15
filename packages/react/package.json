@@ -45,6 +45,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./virtual": {
+      "types": "./dist/virtual.d.ts",
+      "import": "./dist/virtual.js"
     }
   },
   "publishConfig": {
@@ -63,6 +67,7 @@
     "@scrollstackjs/core": "workspace:^"
   },
   "devDependencies": {
+    "@scrollstackjs/virtual": "workspace:^",
     "@testing-library/dom": "latest",
     "@testing-library/react": "latest",
     "@types/react": "latest",
@@ -71,6 +76,12 @@
     "react-dom": "latest"
   },
   "peerDependencies": {
+    "@scrollstackjs/virtual": ">=0.1.1",
     "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@scrollstackjs/virtual": {
+      "optional": true
+    }
   }
 }

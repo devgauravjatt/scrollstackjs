@@ -45,6 +45,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./virtual": {
+      "types": "./dist/virtual.d.ts",
+      "import": "./dist/virtual.js"
     }
   },
   "publishConfig": {
@@ -63,10 +67,17 @@
     "@scrollstackjs/core": "workspace:^"
   },
   "devDependencies": {
+    "@scrollstackjs/virtual": "workspace:^",
     "@vue/test-utils": "latest",
     "vue": "latest"
   },
   "peerDependencies": {
+    "@scrollstackjs/virtual": ">=0.1.1",
     "vue": ">=3.3"
+  },
+  "peerDependenciesMeta": {
+    "@scrollstackjs/virtual": {
+      "optional": true
+    }
   }
 }

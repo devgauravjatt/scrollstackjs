@@ -191,3 +191,51 @@ testing beyond "does it wire the framework's reactivity to the store." Adding
 Solid, Qwik, Preact, or Vanilla is now mechanical — bind those same two methods
 to that framework's reactivity primitive. The three shipped adapters are the
 proof the contract generalizes.
+
+---
+
+## ADR-009 — Virtualization is a second store, not a mode of the engine
+
+**Context.** Infinite scrolling and virtualization solve adjacent problems and are
+routinely wanted together, which makes "add a `virtual: true` option to the engine"
+the obvious move. It is the wrong one. The engine knows about _pages_ — opaque
+`TData` values it never looks inside — while a virtualizer knows about _rows_,
+their pixel sizes, and a scroll container's geometry. Neither can be expressed in
+the other's vocabulary, and half the people who want one do not want the other: a
+static 50,000-row table has nothing to paginate.
+
+**Decision.** `@scrollstackjs/virtual` is a separate package (ADR-001) exposing a
+_second store_ with the same contract as the engine — `subscribe` + `getSnapshot`,
+referentially stable snapshots (ADR-004). Nothing in core changed to accommodate it.
+The two are paired explicitly by `connectInfiniteScroll(virtualizer, engine)`.
+
+**Why the same contract.** The framework bindings were the test. Because the
+virtualizer is shaped like the engine, `useVirtualizer` is `useSyncExternalStore`
+again, the Vue binding is a `shallowRef` again, and the Svelte one satisfies the
+store contract again — ~30 lines each, no new primitives, and ADR-008 holds for a
+package that did not exist when it was written. They ship as `/virtual` entry points
+on the existing adapters with `@scrollstackjs/virtual` as an _optional_ peer, so an
+app that never imports one pays nothing.
+
+**Consequence — the snapshot tracks the rendered window, not the scroll offset.**
+Scrolling fires continuously; the set of rows worth rendering does not. A snapshot
+that carried `scrollOffset` would change on every frame of a fling and re-render the
+list ~60 times a second for nothing. So the snapshot changes only when the window,
+total size, or `isScrolling` changes, and the live offset is read on demand through
+`getScrollOffset()`. This is the one place the virtualizer's contract deviates from
+the engine's, and it is deliberate.
+
+**Consequence — the sentinel does not survive virtualization.** `observeTarget`
+needs an element in the DOM, and the element after the last row is exactly what a
+virtual list declines to render. `connectInfiniteScroll` therefore triggers on
+_indices_ — the rendered window coming within `threshold` items of the end — and
+takes over the first load as well, since nothing else would start it. It refuses to
+re-ask while an `error` is pending (the engine's retry policy owns that, ADR-003) and
+asks once per `count`, which is what keeps a scroll frame from becoming a fetch loop.
+
+**Consequence — a row with no layout box is not a 0px row.** An element inside a
+`display: none` subtree reports zero in both dimensions, and believing it collapses
+the row, moves the window onto rows that are also hidden, and collapses those in
+turn — a measure/render loop that never settles. Measurements are skipped unless the
+element has a box in at least one dimension. Regression test:
+`keeps the estimate for a row that has no layout box yet`.

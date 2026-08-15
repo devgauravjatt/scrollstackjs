@@ -14,7 +14,7 @@ already have an ADR explaining why they were rejected.
 ```bash
 pnpm install
 pnpm run build       # tsc per package, topological (core before adapters)
-pnpm test            # 76 tests / 14 files across the five packages
+pnpm test            # 154 tests / 22 files across the six packages
 pnpm run typecheck   # tsc --noEmit per package
 pnpm run verify      # build + typecheck + test — run this before declaring done
 pnpm run lint        # oxlint over packages/ + examples/ — type-aware
@@ -82,6 +82,9 @@ packages/
   react/    @scrollstackjs/react     useInfiniteScroll (useSyncExternalStore)
   vue/      @scrollstackjs/vue       useInfiniteScroll (shallowRef)
   svelte/   @scrollstackjs/svelte    createInfiniteScroll (returns a store)
+            each adapter also has src/virtual.ts -> the `/virtual` entry point
+  virtual/  @scrollstackjs/virtual   virtualizer: layout.ts (pure) + virtualizer.ts
+                                     (side effects) + scroller.ts (element vs window)
   devtools/ @scrollstackjs/devtools  dev-only panel: store.ts (logic) + panel.ts (DOM)
 examples/  {react,vue,svelte}-live-demo  — all 7 features, Tailwind v4, real APIs
            the three live demos mirror docs/demo; change one, change all three
@@ -100,6 +103,11 @@ Core source map: `engine.ts` (orchestration + all side effects) · `state.ts` (p
 reducer + snapshot derivation) · `observer.ts` (`Trigger` contract +
 IntersectionObserver impl) · `retry.ts` · `emitter.ts` · `errors.ts` ·
 `types.ts` (the public type surface) · `index.ts` (the only export barrel).
+
+Virtual source map: `layout.ts` (pure geometry — stacking, binary search, alignment)
+· `virtualizer.ts` (the store: measurement, observers, scrolling) · `scroller.ts`
+(everything that differs between an element and `window`) · `connect.ts` (the bridge
+to a core engine) · `types.ts` · `index.ts`.
 
 ## Invariants — don't break these
 
@@ -177,6 +185,19 @@ IntersectionObserver impl) · `retry.ts` · `emitter.ts` · `errors.ts` ·
 - **`.npmrc` sets `node-linker=hoisted`** for tool compatibility, so phantom
   dependencies won't be caught locally. Declare every import in the package's
   `package.json`.
+- **Virtual: `count` is pushed in, not watched.** The virtualizer has no way to learn
+  that a page landed; the binding calls `setOptions({ count })` on every render (Vue
+  takes a ref/getter for it). A stale count renders the wrong window. Changing
+  `estimateSize` or `getItemKey` does _not_ re-lay-out measured rows — call
+  `resetMeasurements()`.
+- **Virtual: a measured 0 is not the same as no layout box.** An element reporting
+  zero in _both_ dimensions is skipped, not recorded (ADR-009). Removing that guard
+  reproduces an infinite measure/render loop under jsdom immediately, and under
+  `display: none` in a browser.
+- **Virtual: rows need `data-index`.** `measureElement` reads the index off the
+  attribute; without it (and without an explicit index argument) it throws rather than
+  silently mismeasuring. `scrollMargin` is the other easy miss — a page-scrolled list
+  under a header is wrong by exactly the header's height without it.
 - **`dist/` is gitignored but load-bearing locally.** A fresh clone has no `dist/`,
   so `pnpm run build` comes before anything that resolves `@scrollstackjs/core`.
 
