@@ -82,19 +82,40 @@ A virtual list can't rely on a sentinel — the element after the last row usual
 isn't in the DOM. `connectInfiniteScroll` watches the rendered window instead and
 asks the engine for another page as it nears the end:
 
-```ts
-import { createInfiniteScroll } from '@scrollstackjs/core';
-import { connectInfiniteScroll, createVirtualizer } from '@scrollstackjs/virtual';
+```tsx
+import { useInfiniteScroll } from '@scrollstackjs/react';
+import { useVirtualizer } from '@scrollstackjs/react/virtual';
+import { connectInfiniteScroll } from '@scrollstackjs/virtual';
 
-const engine = createInfiniteScroll({ initialPageParam: 0, fetchPage, getNextPageParam });
-const virtualizer = createVirtualizer({ count: 0, estimateSize: () => 64 });
+function Feed() {
+  const { pages, engine } = useInfiniteScroll({
+    initialPageParam: 0,
+    fetchPage,
+    getNextPageParam: (last) => last.nextCursor,
+  });
 
-const disconnect = connectInfiniteScroll(virtualizer, engine, { threshold: 5 });
-engine.subscribe(() => virtualizer.setOptions({ count: items().length }));
+  // The only thing the two stores share is how many rows there are.
+  const rows = useMemo(() => pages.flatMap((page) => page.items), [pages]);
+
+  const { items, totalSize, scrollRef, measureRef, virtualizer } = useVirtualizer({
+    count: rows.length,
+    estimateSize: () => 64,
+  });
+
+  useEffect(
+    () => connectInfiniteScroll(virtualizer, engine, { threshold: 5 }),
+    [virtualizer, engine],
+  );
+
+  // …render as above, reading rows[item.index]
+}
 ```
 
 It loads the first page too, leaves a failed load to the engine's retry policy, and
 requests one page per count so a slow API can't stack up duplicate requests.
+
+Vue and Svelte wire up the same way — see the
+[worked examples](https://scrollstack.js.org/examples/virtual) for all of them.
 
 ## License
 
