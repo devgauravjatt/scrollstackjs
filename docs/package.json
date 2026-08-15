@@ -11,6 +11,7 @@
   "devDependencies": {
     "@scrollstackjs/core": "link:../packages/core",
     "@scrollstackjs/devtools": "link:../packages/devtools",
+    "@scrollstackjs/virtual": "link:../packages/virtual",
     "@scrollstackjs/vue": "link:../packages/vue",
     "@types/node": "^26.2.0",
     "vitepress": "latest",

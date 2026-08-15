@@ -12,6 +12,8 @@ import RailDemo from './demo/RailDemo.vue'
 import RetryDemo from './demo/RetryDemo.vue'
 import StatesDemo from './demo/StatesDemo.vue'
 import TutorialFeed from './demo/TutorialFeed.vue'
+import VirtualDemo from './demo/VirtualDemo.vue'
+import VirtualFeedDemo from './demo/VirtualFeedDemo.vue'
 
 import './custom.css'
 
@@ -31,5 +33,7 @@ export default {
     app.component('StatesDemo', StatesDemo)
     app.component('Playground', Playground)
     app.component('DevtoolsDemo', DevtoolsDemo)
+    app.component('VirtualDemo', VirtualDemo)
+    app.component('VirtualFeedDemo', VirtualFeedDemo)
   },
 } satisfies Theme

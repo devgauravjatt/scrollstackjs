@@ -129,6 +129,34 @@ export default defineConfig({
     nav: [
       { text: 'Tutorial', link: '/tutorial' },
       { text: 'Guide', link: '/guide/getting-started' },
+      // A dropdown rather than a single link: the examples are the pages people
+      // arrive looking for, and grouping them keeps the top bar to five items.
+      {
+        text: 'Examples',
+        activeMatch: '^/examples/',
+        items: [
+          { text: 'All examples', link: '/examples/' },
+          {
+            text: 'Basics',
+            items: [
+              { text: 'Basic feed', link: '/examples/basic-feed' },
+              { text: 'Pagination strategies', link: '/examples/pagination' },
+              { text: 'Errors and retry', link: '/examples/retry' },
+              { text: 'Manual controls', link: '/examples/manual-controls' },
+            ],
+          },
+          {
+            text: 'Going further',
+            items: [
+              { text: 'Cancellation', link: '/examples/cancellation' },
+              { text: 'Horizontal rail', link: '/examples/horizontal' },
+              { text: 'Virtual list', link: '/examples/virtual' },
+              { text: 'Devtools', link: '/examples/devtools' },
+              { text: 'Events and plugins', link: '/examples/events' },
+            ],
+          },
+        ],
+      },
       { text: 'Demo', link: '/demo' },
       { text: 'API', link: '/api/core' },
       { text: 'Decisions', link: '/decisions' },
@@ -148,6 +176,21 @@ export default defineConfig({
           { text: 'Virtual lists', link: '/guide/virtual-lists' },
           { text: 'Server rendering', link: '/guide/ssr' },
           { text: 'Events & plugins', link: '/guide/events-and-plugins' },
+        ],
+      },
+      {
+        text: 'Examples',
+        items: [
+          { text: 'All examples', link: '/examples/' },
+          { text: 'Basic feed', link: '/examples/basic-feed' },
+          { text: 'Pagination strategies', link: '/examples/pagination' },
+          { text: 'Errors and retry', link: '/examples/retry' },
+          { text: 'Manual controls', link: '/examples/manual-controls' },
+          { text: 'Cancellation', link: '/examples/cancellation' },
+          { text: 'Horizontal rail', link: '/examples/horizontal' },
+          { text: 'Virtual list', link: '/examples/virtual' },
+          { text: 'Devtools', link: '/examples/devtools' },
+          { text: 'Events and plugins', link: '/examples/events' },
         ],
       },
       {
