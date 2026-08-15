@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Headless, framework-agnostic infinite-scroll engine — pagination, retry, cancellation and an intersection trigger in 1.91 KB gzipped. Zero runtime dependencies.",
   "keywords": [
     "cursor-pagination",

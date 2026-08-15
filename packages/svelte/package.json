@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/svelte",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Svelte adapter for ScrollStack — a headless infinite-scroll store plus a sentinel action. Works in Svelte 4 and 5. 0.25 KB gzipped.",
   "keywords": [
     "headless",

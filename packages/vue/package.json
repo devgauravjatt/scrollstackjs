@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/vue",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Vue 3 adapter for ScrollStack — a headless useInfiniteScroll composable with scope-aware teardown. 0.29 KB gzipped.",
   "keywords": [
     "composable",

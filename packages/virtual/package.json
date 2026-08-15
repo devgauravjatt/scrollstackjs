@@ -1,6 +1,6 @@
 {
   "name": "@scrollstackjs/virtual",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Headless list virtualization for ScrollStack — render 50 rows out of 50,000, with dynamic measurement, window scrolling and an infinite-scroll bridge. Framework-agnostic.",
   "keywords": [
     "dynamic-height",
