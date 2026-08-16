@@ -127,8 +127,7 @@ export default defineConfig({
     search: { provider: 'local' },
 
     nav: [
-      { text: 'Tutorial', link: '/tutorial' },
-      { text: 'Guide', link: '/guide/getting-started' },
+      { text: 'Get started', link: '/guide/getting-started' },
       // A dropdown rather than a single link: the examples are the pages people
       // arrive looking for, and grouping them keeps the top bar to five items.
       {
@@ -158,24 +157,17 @@ export default defineConfig({
         ],
       },
       { text: 'Demo', link: '/demo' },
+      { text: 'Tutorial', link: '/tutorial' },
       { text: 'API', link: '/api/core' },
-      { text: 'Decisions', link: '/decisions' },
     ],
 
     sidebar: [
       {
-        text: 'Guide',
+        text: 'Start here',
         items: [
-          { text: 'Tutorial', link: '/tutorial' },
           { text: 'Getting started', link: '/guide/getting-started' },
           { text: 'Live demo', link: '/demo' },
-          { text: 'Core concepts', link: '/guide/concepts' },
-          { text: 'Pagination', link: '/guide/pagination' },
-          { text: 'Errors & retry', link: '/guide/errors-and-retry' },
-          { text: 'Horizontal & scoped scrolling', link: '/guide/horizontal' },
-          { text: 'Virtual lists', link: '/guide/virtual-lists' },
-          { text: 'Server rendering', link: '/guide/ssr' },
-          { text: 'Events & plugins', link: '/guide/events-and-plugins' },
+          { text: 'Tutorial', link: '/tutorial' },
         ],
       },
       {
@@ -194,6 +186,18 @@ export default defineConfig({
         ],
       },
       {
+        text: 'Guides',
+        items: [
+          { text: 'Core concepts', link: '/guide/concepts' },
+          { text: 'Pagination', link: '/guide/pagination' },
+          { text: 'Errors & retry', link: '/guide/errors-and-retry' },
+          { text: 'Horizontal & scoped scrolling', link: '/guide/horizontal' },
+          { text: 'Virtual lists', link: '/guide/virtual-lists' },
+          { text: 'Server rendering', link: '/guide/ssr' },
+          { text: 'Events & plugins', link: '/guide/events-and-plugins' },
+        ],
+      },
+      {
         text: 'API reference',
         items: [
           { text: '@scrollstackjs/core', link: '/api/core' },
@@ -203,10 +207,6 @@ export default defineConfig({
           { text: '@scrollstackjs/virtual', link: '/api/virtual' },
           { text: '@scrollstackjs/devtools', link: '/api/devtools' },
         ],
-      },
-      {
-        text: 'Reference',
-        items: [{ text: 'Architecture decisions', link: '/decisions' }],
       },
     ],
 

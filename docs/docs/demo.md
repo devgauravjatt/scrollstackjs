@@ -103,7 +103,7 @@ Forwarding `signal` is the whole contract. Even if you ignore it, the generation
 guard still makes the stale result inert — the signal just saves the bandwidth.
 
 > **How it works →** [Tutorial § 2, Your first feed](/tutorial#_2-your-first-feed)
-> covers the `signal` contract; [ADR-005](/decisions) covers the generation counter.
+> covers the `signal` contract.
 
 ## Events, via a plugin
 
@@ -142,11 +142,9 @@ navigate away.
 
 ## What isn't here
 
-Nothing on this page is faked, and nothing is hiding a feature that doesn't
-exist. Virtualization, persistence, pull-to-refresh, and bi-directional
-(`getPreviousPageParam`) pagination are **not built** — see
-[Architecture decisions](/decisions) for why each one belongs outside the core
-rather than inside it.
+Nothing on this page is faked. Virtualization has its own package — see the
+[virtual list example](/examples/virtual). Persistence, pull-to-refresh and
+backwards (`getPreviousPageParam`) paging are **not built yet**.
 
-Ready to write some? Start at [the tutorial](/tutorial), or jump to the
-[API reference](/api/core).
+Ready to write some? The [examples](/examples/) have the code for everything on
+this page, or start at [the tutorial](/tutorial).

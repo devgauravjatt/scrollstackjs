@@ -362,6 +362,5 @@ nothing jumps.
 window costs a binary search, not a render. Read `virtualizer.getScrollOffset()`
 if you need the live offset — it is deliberately not on the snapshot.
 
-> **Reference →** [Virtual lists guide](/guide/virtual-lists) for window scrolling
-> and SSR, [`@scrollstackjs/virtual`](/api/virtual) for every option, and
-> [ADR-009](/decisions) for why it is a second store rather than an engine mode.
+> **Next →** [Virtual lists guide](/guide/virtual-lists) for window scrolling and
+> SSR, and [`@scrollstackjs/virtual`](/api/virtual) for every option.

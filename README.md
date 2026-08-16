@@ -13,9 +13,9 @@
 
 [**Documentation**](https://devgauravjatt.github.io/scrollstackjs/) &nbsp;·&nbsp;
 [**Live demo**](https://devgauravjatt.github.io/scrollstackjs/demo) &nbsp;·&nbsp;
+[Examples](https://devgauravjatt.github.io/scrollstackjs/examples/) &nbsp;·&nbsp;
 [Tutorial](https://devgauravjatt.github.io/scrollstackjs/tutorial) &nbsp;·&nbsp;
-[API reference](https://devgauravjatt.github.io/scrollstackjs/api/core) &nbsp;·&nbsp;
-[Decisions](https://devgauravjatt.github.io/scrollstackjs/decisions)
+[API reference](https://devgauravjatt.github.io/scrollstackjs/api/core)
 
 </div>
 

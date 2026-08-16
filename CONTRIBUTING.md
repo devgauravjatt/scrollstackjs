@@ -195,9 +195,9 @@ Before opening a pull request:
 - [ ] If what exists changed, the table in `STATUS.md` and the layout block in
       `README.md` are updated. `STATUS.md` lists only what was actually compiled and
       tested — no aspirational entries.
-- [ ] If the architecture changed, there's a new ADR in `DECISIONS.md`.
-      `docs/docs/decisions.md` is a VitePress `@include` of that file, so ADRs are
-      edited in one place only.
+- [ ] If the architecture changed, there's a new ADR in `DECISIONS.md` — and _not_
+      in `docs/`. The docs site is for people using the library; design rationale
+      stays in the repository.
 
 Describe what changed and why, and link the issue it addresses. Small, focused pull
 requests get reviewed faster than large ones.

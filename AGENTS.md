@@ -212,5 +212,6 @@ TSDoc updated on anything public. Then, depending on what changed:
   and tested.
 - **Public API** → the relevant guide plus the matching `docs/docs/api/*` page.
 
-`docs/docs/decisions.md` is a VitePress `@include` of the root `DECISIONS.md`, so
-ADRs are edited in one place only.
+ADRs live in the root `DECISIONS.md` only. The docs **site** does not publish them:
+it is written for people using the library, not for people arguing with its design.
+Keep the reasoning here and in `DECISIONS.md`, and keep it out of `docs/`.
