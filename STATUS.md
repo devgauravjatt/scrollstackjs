@@ -97,6 +97,9 @@ engine }`; bind the sentinel with `:ref="target"`.
 ## Roadmap
 
 Deliberately not stubbed. Each item builds on the contracts core already exports.
+The _order_ these are meant to land in, and the reasoning, is in
+[`next-plan.md`](./next-plan.md) — scroll anchoring and bottom-anchored chat lists
+are the next two milestones.
 
 **Adapters** — Solid · Qwik · Preact · Vanilla · Astro island wrapper. The pattern is
 proven three ways (React hook, Vue composable, Svelte store), so these are mechanical.

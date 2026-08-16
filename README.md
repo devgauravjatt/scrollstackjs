@@ -192,6 +192,9 @@ Bug reports, docs fixes, and pull requests are welcome — see
 invariants the engine relies on, and the pull-request checklist. Open an issue
 first for anything that changes behavior or the public API.
 
+Looking for something to pick up? [`next-plan.md`](./next-plan.md) has the current
+direction — scroll anchoring, chat lists, and a Solid adapter are next.
+
 ## License
 
 MIT
