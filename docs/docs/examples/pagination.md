@@ -2,7 +2,7 @@
 
 Cursor, offset, and page-number pagination are not three features. They are three
 implementations of one function, `getNextPageParam`, against the same engine
-(ADR-002). The demo below runs all three at once, against three different APIs.
+The demo below runs all three at once, against three different APIs.
 
 <PaginationDemo />
 
@@ -179,5 +179,5 @@ That is deliberate: a page often carries more than rows (a total count, a
 timestamp, a facet list), and an engine that flattened for you would throw it
 away.
 
-> **Reference →** [Pagination guide](/guide/pagination) for time-based and
-> bidirectional shapes, and [ADR-002](/decisions) for why it is one function.
+> **Next →** [Pagination guide](/guide/pagination) for time-based and
+> bidirectional shapes.

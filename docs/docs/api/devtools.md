@@ -114,7 +114,7 @@ toggle button, or the `store` in a test.
 
 **State** — the panel's `storageKey` first, so you know which engine you're looking
 at, then `status` and `fetchStatus` side by side (they are orthogonal, see
-[ADR-003](/decisions)), page count, `pageParams`, `hasNextPage`, `failureCount`, and
+a failed load-more), page count, `pageParams`, `hasNextPage`, `failureCount`, and
 the six derived booleans as lit/unlit chips.
 
 **Timeline** — every `loadStart`, `success`, `error` and `reset`, newest first, with
@@ -131,7 +131,7 @@ pagination by hand.
 
 **Load-more indicator** — the state people misread most. A first-load failure shows
 as _"first load failed (no data)"_; a later-page failure shows as _"load-more failed
-(data intact)"_, because per ADR-003 `status` stays `'success'` and your pages
+(data intact)"_, because `status` stays `'success'` and your pages
 survive.
 
 Collapsed, the panel is a badge whose dot tracks the engine — grey idle, blue

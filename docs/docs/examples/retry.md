@@ -5,7 +5,7 @@ infinite-scroll bug:
 
 - **The first page fails.** There is nothing to show. `status` becomes `'error'`.
 - **A later page fails.** The rows you already loaded are still perfectly good.
-  `status` stays `'success'` and `error` is set beside it (ADR-003).
+  `status` stays `'success'` and `error` is set beside it.
 
 Flip the toggle in the demo and scroll: the engine retries on a backoff, then
 gives up — and the list never empties.
@@ -174,7 +174,7 @@ mid-backoff. `retry()` clears both and resumes **from the page that failed**;
 nothing already loaded is refetched.
 
 Aborts are not failures. A request cancelled by `reset()`, `destroy()`, or a newer
-fetch doesn't increment `failureCount` and doesn't emit `error` (ADR-005).
+fetch doesn't increment `failureCount` and doesn't emit `error`.
 
 > **Reference →** [Errors & retry guide](/guide/errors-and-retry) for the full
 > state matrix, and [Cancellation](/examples/cancellation) for the abort path.

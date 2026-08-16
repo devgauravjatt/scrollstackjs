@@ -3,8 +3,7 @@
 The classic infinite-scroll bug is a response that lands _after_ you cleared the
 list, quietly resurrecting rows the user already dismissed. ScrollStack closes
 that door twice: an `AbortSignal` cancels the real network work, and a generation
-counter makes any late result inert even when the fetcher ignores the signal
-(ADR-005).
+counter makes any late result inert even when the fetcher ignores the signal.
 
 Start a load in the demo and hit **Reset** before it lands. Watch what does _not_
 happen: no page is appended, `failureCount` stays `0`, and no error is surfaced.
@@ -130,5 +129,4 @@ accept one (`axios`'s `signal`, `ky`, `undici`). If yours cannot, the generation
 guard still protects state; you just don't get the network cancelled.
 :::
 
-> **Reference →** [ADR-005](/decisions) for the generation counter, and
-> [Manual controls](/examples/manual-controls) for `reset()` in context.
+> **Next →** [Manual controls](/examples/manual-controls) for `reset()` in context.

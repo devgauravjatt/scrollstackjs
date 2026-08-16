@@ -163,4 +163,4 @@ Plugins are the right home for analytics, logging, devtools, and side effects
 that follow the lifecycle. They are the wrong home for anything that needs to
 change how the engine _decides_ — retry policy, pagination, or the trigger
 mechanism. Those are options and contracts, not plugins; see
-[Architecture decisions](/decisions), ADR-001 and ADR-006.
+the GitHub repository.

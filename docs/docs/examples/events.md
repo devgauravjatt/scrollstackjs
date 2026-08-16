@@ -169,7 +169,7 @@ useInfiniteScroll({
 ::: warning `error` fires once, after retries
 The `error` event is emitted when the retry policy gives up, not on each failed
 attempt. Watch `failureCount` on the snapshot if you want the attempts themselves.
-An abort is not a failure and emits nothing at all (ADR-005).
+An abort is not a failure and emits nothing at all.
 :::
 
 > **Reference →** [Events & plugins guide](/guide/events-and-plugins) and

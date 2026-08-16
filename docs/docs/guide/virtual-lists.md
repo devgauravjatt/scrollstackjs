@@ -12,7 +12,7 @@ of 50,000, and a spacer element holding the scrollbar honest.
 npm i @scrollstackjs/virtual
 ```
 
-`@scrollstackjs/virtual` is a separate package (ADR-001) and works on its own — a
+`@scrollstackjs/virtual` is a separate package and works on its own — a
 static 50,000-row table has nothing to paginate. The framework bindings live in the
 adapters you already have, behind a `/virtual` entry point, so nothing is added to
 your bundle unless you import it.

@@ -25,7 +25,7 @@ function createVirtualizer(options: VirtualizerOptions): Virtualizer
 
 Returns a store in the same shape as the scroll engine — `subscribe` +
 `getSnapshot`, with referentially stable snapshots — so it binds with the same
-primitives (ADR-004, ADR-009).
+primitives.
 
 ```ts
 const virtualizer = createVirtualizer({ count: rows.length, estimateSize: () => 48 })

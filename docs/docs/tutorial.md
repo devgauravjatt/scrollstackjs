@@ -146,7 +146,7 @@ banner flickering back on during the retry itself.
 ::: tip Why `isError` is narrower than it looks
 A load-more failure deliberately leaves `status: 'success'`. Wiping a list the
 user is already reading because the _next_ page failed is a bug, so the engine
-refuses to do it — see [ADR-003](/decisions).
+refuses to do it.
 :::
 
 ## 4. Pick your pagination
@@ -301,7 +301,7 @@ watch `failureCount` if you need the attempts.
 
 ## Where next
 
+- [Examples](/examples/) — a running demo plus full code for every feature.
 - [Live demo](/demo) — the same features as standalone demos, plus horizontal,
   cancellation, and three pagination strategies against three real APIs.
 - [API reference](/api/core) — every type and method.
-- [Architecture decisions](/decisions) — why the engine is shaped this way.

@@ -146,7 +146,6 @@ It bumps the engine's generation counter, aborts the in-flight request through i
 `AbortSignal`, clears the retry timer, and returns to the initial snapshot. A
 response that was already on its way lands into a generation that no longer
 matches and is discarded, so it cannot resurrect the list you just cleared
-(ADR-005).
 
 That makes `reset()` the right call when the _inputs_ change — a new search query,
 a switched filter — because adapter options are read once, at mount.
