@@ -21,7 +21,24 @@ Alongside those: [`README.md`](./README.md) for what the library is,
 - **Bug fixes and tests.** A failing test that pins down a bug is a complete and
   very welcome contribution on its own.
 - **New adapters and feature packages.** These are bigger — see
+  [Adding a framework adapter](#adding-a-framework-adapter) and
   [Bigger changes](#bigger-changes) first.
+
+## What to work on
+
+[`next-plan.md`](./next-plan.md) is the current direction and the order things are
+meant to land in. Two things worth knowing before you pick something up:
+
+- The top of that list is **scroll anchoring** (a list that doesn't jump when older
+  items are prepended) and **bottom-anchored chat lists**. They are what the library
+  is betting on, and they are open.
+- Several things that sound unbuilt are already shipped — variable row heights,
+  resize handling, and scroll compensation for a row above the viewport all work
+  today. The plan's first table says what is real and what is not, so you don't
+  spend a weekend rebuilding something.
+
+`STATUS.md` is the other half of the picture: it lists only what has actually been
+compiled and tested, never intentions.
 
 ## Before you start
 
@@ -201,6 +218,40 @@ Before opening a pull request:
 
 Describe what changed and why, and link the issue it addresses. Small, focused pull
 requests get reviewed faster than large ones.
+
+## Adding a framework adapter
+
+Every adapter is the same ~40 lines twice: one entry point binding the scroll
+engine, one binding the virtualizer. Copy the closest existing package rather than
+starting from scratch — Svelte if your framework has a store contract, Vue if it has
+a reactive ref, React if it has a `useSyncExternalStore` equivalent.
+
+The whole job:
+
+1. `packages/<framework>/src/index.ts` — create the engine once, mirror
+   `getSnapshot()` into the framework's reactive primitive inside `subscribe`, and
+   forward `loadNextPage` / `retry` / `reset` / `engine` plus a sentinel binding.
+2. `packages/<framework>/src/virtual.ts` — the same for `createVirtualizer`, exported
+   from the package's `./virtual` entry point, with `@scrollstackjs/virtual` as an
+   **optional** peer dependency so nobody pays for it unimported.
+3. Teardown: call `engine.destroy()` on whatever your framework calls unmount. If it
+   has no such hook, return `destroy` and document that the caller owns it — that is
+   what Svelte does.
+4. Tests in `tests/`, `jsdom` environment. Two are enough: it renders the snapshot,
+   and it stops updating after teardown. There is no logic in an adapter worth
+   testing beyond the wiring.
+5. `package.json`: `exports` for `.` and `./virtual`, the framework as a
+   `peerDependency`, `@scrollstackjs/core` as a real dependency, `sideEffects: false`.
+
+**The one trap.** The engine builds a fresh `IntersectionObserver` on every
+`observeTarget` call, and a fresh observer reports its initial intersection
+immediately. So a framework binding that re-runs on every render — Vue's function
+refs do — will refetch on every render, straight past the `retry` limit, forever.
+Track the observed node and no-op on repeats, the way `packages/vue/src/index.ts`
+does. Add the regression test with it:
+`observes the sentinel once, not on every re-render`.
+
+`next-plan.md` names Solid as the next one worth doing.
 
 ## Bigger changes
 
